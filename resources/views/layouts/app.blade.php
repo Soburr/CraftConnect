@@ -7,6 +7,7 @@
 
         <title>{{ config('app.name', 'CraftConnect') }}</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/alpinejs" defer></script>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <!-- Logo as image -->
     <a class="navbar-brand" href="#">
-      <img src="logo.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+      <img src="{{ asset('Images/logo.png')}}" alt="Logo" width="40" height="40" class="align-text-top d-inline-block">
     </a>
 
     <!-- Toggler -->
@@ -22,7 +22,7 @@
       </div>
       <div class="offcanvas-body">
         <!-- Links -->
-        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <ul class="mx-auto mb-2 navbar-nav mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
@@ -35,7 +35,7 @@
         </ul>
 
         <!-- Mobile Button -->
-        <div class="mt-3 d-lg-none text-left">
+        <div class="mt-3 text-left d-lg-none">
             <a href="#" class="btn btn-success">Get Started</a>
         </div>
       </div>
