@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class ReviewController extends Controller
 {
-    public function viewDashboard()
+    public function review()
     {
-        return view('client.dashboard');
+        return view('client.reviews');
     }
-
 }
