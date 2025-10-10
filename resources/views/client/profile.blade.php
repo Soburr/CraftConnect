@@ -13,7 +13,7 @@
                 @php
                     $monthsSinceJoined = $user->created_at->diffInMonths(now());
                 @endphp
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-gray-500 mt-4">
                     @if ($monthsSinceJoined >= 6)
                         Lag-Artisan family since {{ $user->created_at->format('F Y') }}
                     @else
@@ -46,20 +46,24 @@
             </div>
         @endif
 
-        <form action="{{ route('client.store') }}" id="profileForm" class="mt-10 max-w-4xl mx-auto" method="POST">
+        <form action="{{ route('client.store') }}" id="profileForm" class="mt-10 max-w-4xl mx-auto" method="POST"
+            enctype="multipart/form-data">
             @csrf
             <!-- Avatar -->
             <div class="flex justify-center mt-6">
                 <div class="relative">
-                    <img src="https://via.placeholder.com/100" alt="Avatar"
-                        class="w-24 h-24 rounded-full object-cover border-4 border-green-500">
+                    <img id="avatarPreview"
+                        src="{{ $user->client->avatar ? asset('storage/' . $user->client->avatar) : 'https://via.placeholder.com/100' }}"
+                        alt="Avatar" class="w-24 h-24 rounded-full object-cover border-4 border-green-500">
+
                     <label
                         class="absolute bottom-0 right-0 bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded-full cursor-pointer">
                         Change
-                        <input type="file" class="hidden" />
+                        <input type="file" name="avatar" id="avatarInput" class="hidden" accept="image/*" />
                     </label>
                 </div>
             </div>
+
 
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -99,7 +103,7 @@
                 <!-- Department -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Department</label>
-                    <input type="text" name="department" value="{{ $user->client->department ?? ''}}" disabled
+                    <input type="text" name="department" value="{{ $user->client->department ?? '' }}" disabled
                         class="profile-input w-full border border-gray-300 rounded-lg px-4 py-2
                bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
@@ -107,7 +111,7 @@
                 <!-- Faculty -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Faculty</label>
-                    <input type="text" name="faculty" value="{{ $user->client->faculty ?? ''}}" disabled
+                    <input type="text" name="faculty" value="{{ $user->client->faculty ?? '' }}" disabled
                         class="profile-input w-full border border-gray-300 rounded-lg px-4 py-2
                bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
@@ -115,7 +119,7 @@
                 <!-- Matric Number -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Matric No</label>
-                    <input type="text" name="matric_no" value="{{ $user->client->matric_no ?? ''}}" disabled
+                    <input type="text" name="matric_no" value="{{ $user->client->matric_no ?? '' }}" disabled
                         class="profile-input w-full border border-gray-300 rounded-lg px-4 py-2
                bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
@@ -123,7 +127,7 @@
                 <!-- Room Number -->
                 <div>
                     <label class="block text-gray-700 font-medium mb-2">Room No</label>
-                    <input type="text" name="room_number" value="{{ $user->client->room_number ?? ''}}" disabled
+                    <input type="text" name="room_number" value="{{ $user->client->room_number ?? '' }}" disabled
                         class="profile-input w-full border border-gray-300 rounded-lg px-4 py-2
                bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
@@ -135,7 +139,7 @@
                 <textarea rows="4" name="bio" disabled
                     class="profile-input w-full border border-gray-300 rounded-lg px-4 py-2
             bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
-            {{ $user->client->bio ?? ''}}
+            {{ $user->client->bio ?? '' }}
         </textarea>
             </div>
 
@@ -257,6 +261,18 @@
                     alertBox.classList.add('opacity-0', 'translate-y-[-10px]');
                     setTimeout(() => alertBox.remove(), 500);
                 }, 3000);
+            }
+        });
+
+        // --- Avatar preview update ---
+        document.getElementById('avatarInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('avatarPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
             }
         });
     </script>

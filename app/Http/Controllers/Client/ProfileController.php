@@ -30,6 +30,7 @@ class ProfileController extends Controller
                 'matric_no' => 'nullable|string|max:255',
                 'room_number' => 'nullable|string|max:255',
                 'bio' => 'nullable|string|max:500',
+                'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
             $user->update([
@@ -38,15 +39,21 @@ class ProfileController extends Controller
                 'number' => $validated['number']
             ]);
 
+            $avatarPath = null;
+            if ($request->hasFile('avatar')) {
+                $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            }
+
             $user->client()->updateOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'hall_of_residence' => $validated['hall_of_residence'],
-                    'faculty' => $validated['faculty'],
-                    'department' => $validated['department'],
-                    'matric_no' => $validated['matric_no'],
-                    'room_number' => $validated['room_number'],
-                    'bio' => $validated['bio']
+                    'hall_of_residence' => $validated['hall_of_residence'] ?? null,
+                    'faculty' => $validated['faculty'] ?? null,
+                    'department' => $validated['department'] ?? null,
+                    'matric_no' => $validated['matric_no'] ?? null,
+                    'room_number' => $validated['room_number'] ?? null,
+                    'bio' => $validated['bio'] ?? null,
+                    'avatar' => $avatarPath ?? $user->client->avatar ?? null,
                 ]
             );
 
