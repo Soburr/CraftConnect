@@ -31,6 +31,7 @@ Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(fu
     Route::get('/find-artisan', [App\Http\Controllers\Client\ArtisanController::class, 'artisan'])->name('client.artisan');
     Route::get('/bookings', [App\Http\Controllers\Client\BookingsController::class, 'booking'])->name('client.bookings');
     Route::get('/profile', [App\Http\Controllers\Client\ProfileController::class, 'profile'])->name('client.profile');
+    Route::post('/profile', [App\Http\Controllers\Client\ProfileController::class, 'store'])->name('client.store');
     Route::get('/reviews', [App\Http\Controllers\Client\ReviewController::class, 'review'])->name('client.reviews');
 });
 

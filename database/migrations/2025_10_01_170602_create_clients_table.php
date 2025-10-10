@@ -15,6 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('hall_of_residence')->nullable();
+            $table->string('faculty')->nullable();
+            $table->string('department')->nullable();
+            $table->string('room_number')->nullable();
+            $table->string('matric_no')->nullable();
+            $table->longText('bio')->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }
