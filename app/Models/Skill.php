@@ -13,6 +13,11 @@ class Skill extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function artisans()
+    {
+        return $this->hasMany(Artisan::class, 'skill_id');
     }
 }

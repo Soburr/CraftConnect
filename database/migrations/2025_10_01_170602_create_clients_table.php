@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('department')->nullable();
             $table->string('room_number')->nullable();
             $table->string('matric_no')->nullable();
-            $table->longText('bio')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
         });

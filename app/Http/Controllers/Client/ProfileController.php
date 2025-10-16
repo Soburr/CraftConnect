@@ -29,7 +29,6 @@ class ProfileController extends Controller
                 'department' => 'nullable|string|max:255',
                 'matric_no' => 'nullable|string|max:255',
                 'room_number' => 'nullable|string|max:255',
-                'bio' => 'nullable|string|max:500',
                 'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
@@ -52,7 +51,6 @@ class ProfileController extends Controller
                     'department' => $validated['department'] ?? null,
                     'matric_no' => $validated['matric_no'] ?? null,
                     'room_number' => $validated['room_number'] ?? null,
-                    'bio' => $validated['bio'] ?? null,
                     'avatar' => $avatarPath ?? $user->client->avatar ?? null,
                 ]
             );

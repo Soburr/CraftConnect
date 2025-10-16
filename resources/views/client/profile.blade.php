@@ -133,16 +133,6 @@
                 </div>
             </div>
 
-            <!-- Bio -->
-            <div class="mt-6">
-                <label class="block text-gray-700 font-medium mb-2">Bio</label>
-                <textarea rows="4" name="bio" disabled
-                    class="profile-input w-full border border-gray-300 rounded-lg px-4 py-2
-            bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">
-            {{ $user->client->bio ?? '' }}
-        </textarea>
-            </div>
-
             <!-- Save/Cancel Buttons -->
             <div id="actionButtons" class="mt-8 text-center hidden">
                 <button type="submit"

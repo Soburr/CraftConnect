@@ -18,9 +18,10 @@ class CategorySeeder extends Seeder
             ['name' => 'Tech', 'description' => 'Web Development, graphics design, more'],
             ['name' => 'Cleaning', 'description' => 'Laundry, room cleaning'],
             ['name' => 'Repairs', 'description' => 'plumbing, electrical, carpentry and related jobs'],
-            ['name' => 'Events', 'description' => 'Catering, DJ, photography, videography and more'],
+            ['name' => 'Events', 'description' => 'Catering, and more'],
             ['name' => 'Logistics', 'description' => 'Delivery services'],
             ['name' => 'Crafts', 'description' => 'Bead making, painting, printing, and more'],
+            ['name' => 'Lifestyle', 'description' => 'DJ, photography, videography, and more'],
         ];
 
         foreach ($categories as $category) {

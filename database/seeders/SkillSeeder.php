@@ -15,12 +15,14 @@ class SkillSeeder extends Seeder
     public function run(): void
     {
         $skills = [
-            'Fashion' => ['Tailoring', 'Makeup', 'Hair Styling', 'Fashion Design', 'Wears', 'Bag Making'],
+            'Fashion' => ['Tailoring', 'Makeup', 'Hair Styling', 'Fashion Design', 'Wears', 'Bag Making', 'Nail Tech', 'Lash Tech'],
             'Tech' => ['Web Development', 'Graphic Design', 'UI/UX Design'],
-            'Cleaning' => ['Laundry', 'Hostel Cleaning',],
+            'Cleaning' => ['Laundry', 'Hostel Cleaning'],
             'Repairs' => ['Phone Repair', 'Plumbing', 'Electrical Fix', 'Carpentry', 'Laptop Fix', 'Shoe Repair',],
-            'Events' => ['Caterer', 'DJ', 'Hypeman', 'MC', 'Event Planner'],
+            'Events' => ['Caterer', 'MC', 'Event Planner'],
             'Crafts' => ['Bead Making', 'Painting', 'Printing', 'Shoe Making'],
+            'Logistics' => ['Delivery Services'],
+            'Lifestyle' => ['DJ', 'Hypeman', 'Photographer', 'Videographer']
         ];
 
         foreach($skills as $categoryName => $skillNames) {

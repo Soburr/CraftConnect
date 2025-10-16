@@ -14,7 +14,6 @@ class Client extends Model
        'department',
        'matric_no',
        'room_number',
-       'bio',
        'avatar'
     ];
     public function user(): BelongsTo
