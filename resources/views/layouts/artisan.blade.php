@@ -35,11 +35,11 @@
                     <a href="{{ route('artisan.profile') }}"
                         class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('artisan.profile') ? 'bg-green-900' : '' }}">Profile</a>
 
-                    {{-- <a href="{{ route('artisan.bookings') }}"
+                    <a href="{{ route('artisan.bookings') }}"
                         class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('artisan.bookings') ? 'bg-green-900' : '' }}">My
                         Bookings</a>
                     <a href="{{ route('artisan.reviews') }}"
-                        class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('artisan.reviews') ? 'bg-green-900' : '' }}">Reviews</a> --}}
+                        class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('artisan.reviews') ? 'bg-green-900' : '' }}">Reviews</a>
                 </nav>
             </div>
         </aside>

@@ -58,14 +58,14 @@ class User extends Authenticatable
         return $this->hasOne(Artisan::class);
     }
 
-    //Role checkers
-    // public function isClient()
-    // {
-    //     return $this->role === 'client';
-    // }
+    public function artisanBookings()
+    {
+        return $this->hasMany(Booking::class, 'artisan_id');
+    }
 
-    // public function isArtisan()
-    // {
-    //     return $this->role === 'artisan';
-    // }
+    public function clientBookings()
+    {
+        return $this->hasMany(Booking::class, 'client_id');
+    }
+
 }
