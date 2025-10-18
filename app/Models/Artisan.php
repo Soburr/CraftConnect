@@ -35,4 +35,9 @@ class Artisan extends Model
      {
          return $this->belongsTo(Skill::class, 'skill_id');
      }
+
+     public function location() {
+        return $this->belongsTo(Location::class);
+    }
+
 }
