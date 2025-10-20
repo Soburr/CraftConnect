@@ -68,4 +68,10 @@ class User extends Authenticatable
         return $this->hasMany(Booking::class, 'client_id');
     }
 
+    public function clientProfile()
+{
+    return $this->hasOne(Client::class);
+}
+
+
 }

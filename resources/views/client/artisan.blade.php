@@ -82,16 +82,22 @@
                             class="view-profile-btn bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded-md text-sm"
                             data-name="{{ $artisan->user->name }}"
                             data-skill="{{ $artisan->skill->name ?? 'N/A' }}"
-                            data-phone="{{ $artisan->user->phone ?? 'N/A' }}"
+                            data-phone="{{ $artisan->user->number ?? 'N/A' }}"
                             data-email="{{ $artisan->user->email }}"
                             data-hall="{{ $artisan->hall_of_residence ?? 'N/A' }}"
                             data-avatar="{{ $artisan->avatar ? asset('storage/' . $artisan->avatar) : 'https://via.placeholder.com/150' }}"
                             data-rating="{{ number_format($artisan->rating ?? 0, 1) }}">
                             View Profile
                         </button>
-                        <button
-                            class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-1.5 rounded-md text-sm">Book
-                            Now</button>
+                        <form method="POST" action="{{ route('client.book-artisan', $artisan->user->id) }}">
+                            @csrf
+                            <input type="hidden" name="skill_id" value="{{ $artisan->skill_id }}">
+                            <button type="submit"
+                                class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-1.5 rounded-md text-sm">
+                                Book Now
+                            </button>
+                        </form>
+
                     </div>
                 </div>
                 @empty

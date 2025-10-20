@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Artisan;
+use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArtisanController extends Controller
 {
@@ -52,4 +54,17 @@ class ArtisanController extends Controller
 
         return view('client.artisan', compact('artisans', 'categories', 'locations', 'search', 'category', 'location'));
     }
+
+    public function bookArtisan($artisanId) {
+    Booking::create([
+        'client_id' => Auth::id(),
+        'artisan_id' => $artisanId,
+        'skill_id' => request('skill_id'),
+        'booking_date' => now(),
+        'status' => 'in_progress',
+    ]);
+
+    return redirect()->route('client.bookings')->with('success', 'Booking created successfully!');
+}
+
 }

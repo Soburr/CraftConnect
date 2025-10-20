@@ -20,7 +20,7 @@
           <!-- Left Section -->
           <div>
             <h2 class="text-lg font-semibold text-gray-800">
-              {{ $booking->service ?? 'Service' }}
+              {{ $booking->skill->name ?? 'Service' }}
             </h2>
             <p class="text-sm text-gray-500 mt-1">
               <span class="font-medium text-gray-700">Client:</span>
@@ -28,7 +28,7 @@
             </p>
             <p class="text-sm text-gray-500">
               <span class="font-medium text-gray-700">Location:</span>
-              {{ $booking->location ?? 'Not specified' }}
+              {{ $booking->client->clientProfile->hall_of_residence ?? 'Not Provided' }}
             </p>
             <p class="text-sm text-gray-500">
               <span class="font-medium text-gray-700">Date:</span>

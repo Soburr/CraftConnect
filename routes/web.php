@@ -37,6 +37,16 @@ Route::middleware(['auth', 'role:client'])->prefix('client/dashboard/bookings')-
     Route::post('/{booking}/rebook', [App\Http\Controllers\Client\BookingsController::class, 'rebook']);
 });
 
+Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
+    Route::post('/book-artisan/{artisan}', [App\Http\Controllers\Client\BookingsController::class, 'store'])
+        ->name('client.book-artisan');
+});
+
+Route::post('/book-artisan/{artisan}', [App\Http\Controllers\Client\ArtisanController::class, 'bookArtisan'])
+    ->name('client.book-artisan');
+
+
+
 Route::middleware(['auth', 'role:artisan'])->prefix('artisan/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Artisan\DashboardController::class, 'viewDashboard'])->name('artisan.dashboard');
     Route::get('/profile', [App\Http\Controllers\Artisan\ProfileController::class, 'profile'])->name('artisan.profile');

@@ -15,6 +15,7 @@ class Booking extends Model
         'skill_id',
         'booking_date',
         'status',
+        'cancelled_at'
     ];
 
     public function client()
@@ -22,10 +23,22 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'client_id');
     }
 
+
     public function artisan()
     {
         return $this->belongsTo(User::class, 'artisan_id');
     }
+
+    public function skill()
+    {
+        return $this->belongsTo(Skill::class);
+    }
+
+    public function review()
+    {
+        return $this->hasOne(Review::class);
+    }
+
 
     public function getStatusLabelAttribute()
     {

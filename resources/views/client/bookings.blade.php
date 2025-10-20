@@ -46,13 +46,13 @@
                             Chat on WhatsApp
                         </button>
 
-                        @if ($booking->status === 'in-progress')
+                        @if ($booking->status === 'in_progress')
                             <button
                                 class="complete-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Mark
                                 as Complete</button>
                             <button
                                 class="cancel-btn bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1.5 rounded-md text-sm transition">Cancel</button>
-                        @elseif ($booking->status === 'completed')
+                        @elseif ($booking->status === 'completed' && !$booking->review)
                             <button
                                 class="review-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Leave
                                 Review</button>
