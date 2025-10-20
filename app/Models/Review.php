@@ -12,4 +12,14 @@ class Review extends Model
     {
         return $this->belongsTo(Booking::class);
     }
+
+    public function artisan()
+    {
+        return $this->belongsTo(User::class, 'artisan_id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'client_id');
+    }
 }

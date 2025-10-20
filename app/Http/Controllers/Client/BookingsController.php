@@ -87,16 +87,22 @@ class BookingsController extends Controller
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string|max:1000',
         ]);
 
-        $booking->review()->create([
+        $existing = Review::where('booking_id', $booking->id)->first();
+        if($existing) {
+            return response()->json(['success' => false, 'message' => 'Review already exist'], 400);
+        }
+
+        Review::create([
+            'booking_id' => $booking->id,
             'client_id' => Auth::id(),
             'artisan_id' => $booking->artisan_id,
-            'rating' => $request->rating,
-            'review' => $request->review,
+            'rating' => $validated['rating'],
+            'review' => $validated['review'],
         ]);
 
         return response()->json(['success' => true, 'message' => 'Review submitted successfully']);

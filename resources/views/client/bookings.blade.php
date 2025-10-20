@@ -215,19 +215,29 @@
                         },
                         body: JSON.stringify({
                             rating: selectedRating,
-                            comment: text
+                            review: text
                         })
                     })
                     .then(res => res.json())
                     .then(data => {
                         if (data.success) {
-                            alert('Review submitted successfully!');
-                            reviewModal.classList.add('hidden');
-                            selectedRating = 0;
-                            updateStars();
-                            document.getElementById('reviewText').value = '';
-                            location.reload();
-                        }
+  const msg = document.createElement('div');
+  msg.textContent = data.message || 'Review submitted successfully!';
+  msg.className = 'fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition-opacity duration-500';
+  document.body.appendChild(msg);
+
+  setTimeout(() => {
+    msg.style.opacity = '0';
+    setTimeout(() => msg.remove(), 500);
+  }, 2000);
+
+  reviewModal.classList.add('hidden');
+  selectedRating = 0;
+  updateStars();
+  document.getElementById('reviewText').value = '';
+  location.reload();
+}
+
                     });
             });
         });

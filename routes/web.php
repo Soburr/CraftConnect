@@ -35,6 +35,7 @@ Route::middleware(['auth', 'role:client'])->prefix('client/dashboard/bookings')-
     Route::post('/{booking}/complete', [App\Http\Controllers\Client\BookingsController::class, 'markComplete']);
     Route::post('/{booking}/cancel', [App\Http\Controllers\Client\BookingsController::class, 'cancel']);
     Route::post('/{booking}/rebook', [App\Http\Controllers\Client\BookingsController::class, 'rebook']);
+    Route::post('/{booking}/review', [App\Http\Controllers\Client\BookingsController::class, 'review']);
 });
 
 Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
