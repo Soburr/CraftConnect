@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('skill_id')->constrained('skills')->onDelete('cascade');
             $table->date('booking_date')->nullable();
             $table->enum('status', ['pending', 'in_progress', 'completed', 'cancelled'])->default('pending');
+            $table->timestamp('cancelled_at')->nullable();
             $table->timestamps();
         });
 

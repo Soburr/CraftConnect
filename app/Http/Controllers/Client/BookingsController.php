@@ -98,6 +98,7 @@ class BookingsController extends Controller
         }
 
         Review::create([
+            'skill_id' => $booking->skill_id ?? $booking->artisan->skill_id,
             'booking_id' => $booking->id,
             'client_id' => Auth::id(),
             'artisan_id' => $booking->artisan_id,

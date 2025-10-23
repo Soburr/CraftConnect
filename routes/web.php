@@ -28,6 +28,8 @@ Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(fu
     Route::get('/profile', [App\Http\Controllers\Client\ProfileController::class, 'profile'])->name('client.profile');
     Route::post('/profile', [App\Http\Controllers\Client\ProfileController::class, 'store'])->name('client.store');
     Route::get('/reviews', [App\Http\Controllers\Client\ReviewController::class, 'review'])->name('client.reviews');
+    Route::get('/change-password', [App\Http\Controllers\Client\PasswordChangeController::class, 'change'])->name('password.edit');
+    Route::put('/change-password', [App\Http\Controllers\Client\PasswordChangeController::class, 'update'])->name('password.update');
 });
 
 Route::middleware(['auth', 'role:client'])->prefix('client/dashboard/bookings')->group(function () {

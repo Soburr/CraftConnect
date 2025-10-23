@@ -69,9 +69,22 @@ class User extends Authenticatable
     }
 
     public function clientProfile()
-{
-    return $this->hasOne(Client::class);
-}
+    {
+      return $this->hasOne(Client::class);
+    }
 
+    public function artisansReview()
+    {
+      return $this->hasMany(Review::class, 'artisan_id');
+    }
 
+    public function clientReview()
+    {
+      return $this->hasMany(Review::class, 'client_id');
+    }
+
+    public function skill()
+    {
+      return $this->belongsTo(Skill::class, 'skill_id');
+    }
 }
