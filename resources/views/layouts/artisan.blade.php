@@ -40,6 +40,9 @@
                         Bookings</a>
                     <a href="{{ route('artisan.reviews') }}"
                         class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('artisan.reviews') ? 'bg-green-900' : '' }}">Reviews</a>
+                        <a href="{{ route('password.edit') }}"
+                         class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">
+                            Change Password</a>
                 </nav>
             </div>
         </aside>

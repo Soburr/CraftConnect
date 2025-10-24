@@ -55,7 +55,9 @@ Route::middleware(['auth', 'role:artisan'])->prefix('artisan/dashboard')->group(
     Route::get('/profile', [App\Http\Controllers\Artisan\ProfileController::class, 'profile'])->name('artisan.profile');
     Route::post('/profile', [App\Http\Controllers\Artisan\ProfileController::class, 'store'])->name('artisan.store');
     Route::get('/bookings', [App\Http\Controllers\Artisan\BookingsController::class, 'booking'])->name('artisan.bookings');
-    Route::get('/reviews', [App\Http\Controllers\Artisan\BookingsController::class, 'reiew'])->name('artisan.reviews');
+    Route::get('/reviews', [App\Http\Controllers\Artisan\ReviewsController::class, 'artisanReviews'])->name('artisan.reviews');
+    Route::get('/change-password', [App\Http\Controllers\Artisan\PasswordChangeController::class, 'change'])->name('password.edit');
+    Route::put('/change-password', [App\Http\Controllers\Artisan\PasswordChangeController::class, 'update'])->name('password.update');
 });
 
 
