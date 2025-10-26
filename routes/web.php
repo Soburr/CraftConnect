@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /**General Homepage */
-Route::get('/', static fn()=> view('homepage'))->name('homepage');
+Route::get('/', static fn() => view('homepage'))->name('homepage');
 
 /**Authentication */
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
@@ -14,7 +14,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/logout', function() {
+Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
@@ -24,12 +24,13 @@ Route::post('/logout', function() {
 
 Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'viewDashboard'])->name('client.dashboard');
+    Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'recentBookings'])->name('client.dashboard');
     Route::get('/find-artisan', [App\Http\Controllers\Client\ArtisanController::class, 'index'])->name('client.artisan');
     Route::get('/profile', [App\Http\Controllers\Client\ProfileController::class, 'profile'])->name('client.profile');
     Route::post('/profile', [App\Http\Controllers\Client\ProfileController::class, 'store'])->name('client.store');
     Route::get('/reviews', [App\Http\Controllers\Client\ReviewController::class, 'review'])->name('client.reviews');
-    Route::get('/change-password', [App\Http\Controllers\Client\PasswordChangeController::class, 'change'])->name('password.edit');
-    Route::put('/change-password', [App\Http\Controllers\Client\PasswordChangeController::class, 'update'])->name('password.update');
+    Route::get('/change-password', [App\Http\Controllers\Client\PasswordChangeController::class, 'change'])->name('client.password.edit');
+    Route::put('/change-password', [App\Http\Controllers\Client\PasswordChangeController::class, 'update'])->name('client.password.update');
 });
 
 Route::middleware(['auth', 'role:client'])->prefix('client/dashboard/bookings')->group(function () {

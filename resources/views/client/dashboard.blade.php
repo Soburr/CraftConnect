@@ -41,7 +41,7 @@
       </div>
       <div>
         <p class="text-gray-500 text-sm">My Bookings</p>
-        <h3 class="text-xl font-semibold text-gray-800">12</h3>
+        <h3 class="text-xl font-semibold text-gray-800">{{ $completedBookings }}</h3>
       </div>
     </div>
     </a>
@@ -57,7 +57,7 @@
       </div>
       <div>
         <p class="text-gray-500 text-sm">Reviews</p>
-        <h3 class="text-xl font-semibold text-gray-800">8</h3>
+        <h3 class="text-xl font-semibold text-gray-800">{{ $totalReviews }}</h3>
       </div>
     </div>
     </a>
@@ -84,24 +84,15 @@
         </tr>
       </thead>
       <tbody>
+        @foreach ($recent as $booking)
         <tr class="border-b hover:bg-gray-50">
-          <td class="py-3 px-4">Mary</td>
-          <td class="py-3 px-4">Tailor</td>
-          <td class="py-3 px-4">02/09/2024</td>
-          <td class="py-3 px-4">Nice job!</td>
+            <td class="py-3 px-4">{{ $booking->artisan->name ?? 'N/A' }}</td>
+            <td class="py-3 px-4">{{ $booking->skill->name ?? 'N/A' }}</td>
+            <td class="py-3 px-4">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
+            <td class="py-3 px-4">{{ \Illuminate\Support\Str::limit($booking->review->review ?? 'No review', 30, '...') }}</td>
         </tr>
-        <tr class="border-b hover:bg-gray-50">
-          <td class="py-3 px-4">John</td>
-          <td class="py-3 px-4">Carpenter</td>
-          <td class="py-3 px-4">01/09/2024</td>
-          <td class="py-3 px-4">Loved it!</td>
-        </tr>
-        <tr>
-          <td class="py-3 px-4">Susan</td>
-          <td class="py-3 px-4">Stylist</td>
-          <td class="py-3 px-4">28/08/2024</td>
-          <td class="py-3 px-4">Pending</td>
-        </tr>
+        @endforeach
+        
       </tbody>
     </table>
   </div>

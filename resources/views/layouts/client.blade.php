@@ -33,7 +33,7 @@
           <a href="{{ route('client.artisan') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.artisan') ? 'bg-green-900' : '' }}">Find Artisans</a>
           <a href="{{ route('client.bookings') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.bookings') ? 'bg-green-900' : '' }}">My Bookings</a>
           <a href="{{ route('client.reviews') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.reviews') ? 'bg-green-900' : '' }}">Reviews</a>
-          <a href="{{ route('password.edit') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">Change Password</a>
+          <a href="{{ route('client.password.edit') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">Change Password</a>
         </nav>
       </div>
     </aside>
