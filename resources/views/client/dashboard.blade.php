@@ -89,7 +89,7 @@
             <td class="py-3 px-4">{{ $booking->artisan->name ?? 'N/A' }}</td>
             <td class="py-3 px-4">{{ $booking->skill->name ?? 'N/A' }}</td>
             <td class="py-3 px-4">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
-            <td class="py-3 px-4">{{ \Illuminate\Support\Str::limit($booking->review->review ?? 'No review', 30, '...') }}</td>
+            <td class="py-3 px-4">{{ \Illuminate\Support\Str::limit($booking->review->review ?? 'No review', 10, '...') }}</td>
         </tr>
         @endforeach
         

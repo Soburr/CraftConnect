@@ -27,7 +27,7 @@ class ArtisanController extends Controller
         }
 
 
-        $query = Artisan::with(['user', 'skill.category']);
+        $query = Artisan::with(['user', 'skill.category'])->withAvg('reviews', 'rating');;
 
         if ($search) {
             $query->where(function ($q) use ($search) {

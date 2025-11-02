@@ -36,12 +36,14 @@ class DashboardController extends Controller
         $totalBookings = Booking::where('client_id', $clientId)->count();
         $totalReviews = Review::where('client_id', $clientId)->count();
         $completedBookings = Booking::where('client_id', $clientId)->where('status', 'completed')->count();
+        $pendingBookings = Booking::where('client_id', $clientId)->where('status', 'pending')->count();
         $recent = Booking::with(['artisan', 'skill'])->where('client_id', $clientId)->orderBy('booking_date', 'desc')->take(3)->get();
         return view('client.dashboard', compact(
             'totalBookings',
             'totalReviews',
             'recent',
-            'completedBookings'
+            'completedBookings',
+            'pendingBookings'
         ));
     }
 

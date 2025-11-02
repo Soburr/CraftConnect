@@ -17,51 +17,53 @@
                     $artisan = $booking->artisan;
                 @endphp
 
-                <div class="flex flex-col justify-between p-5 bg-white border border-green-200 shadow-sm booking-card rounded-xl md:flex-row md:items-center"
-                    data-id="{{ $booking->id }}" data-status="{{ $booking->status }}">
-                    <div class="flex items-center space-x-4">
-                        <img src="{{ $artisan->avatar ?? 'https://via.placeholder.com/70' }}"
-                            class="object-cover w-16 h-16 border-2 border-green-500 rounded-full"
-                            alt="{{ $artisan->name }}">
-                        <div>
-                            <h3 class="font-semibold text-gray-800">{{ $artisan->name }}</h3>
-                            <p class="text-sm text-gray-500">
-                                {{ ucfirst($booking->skill->name) }} • {{ $artisan->hall_of_residence }}
-                            </p>
+                @if($artisan && $artisan->user)
+                    <div class="flex flex-col justify-between p-5 bg-white border border-green-200 shadow-sm booking-card rounded-xl md:flex-row md:items-center"
+                        data-id="{{ $booking->id }}" data-status="{{ $booking->status }}">
+                        <div class="flex items-center space-x-4">
+                            <img src="{{ $artisan->avatar ? asset('storage/' . $artisan->avatar) : 'https://via.placeholder.com/70' }}"
+                                class="object-cover w-16 h-16 border-2 border-green-500 rounded-full"
+                                alt="{{ $artisan->user->name }}">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">{{ $artisan->user->name }}</h3>
+                                <p class="text-sm text-gray-500">
+                                    {{ ucfirst($booking->skill->name) }} • {{ $artisan->hall_of_residence }}
+                                </p>
 
-                            <span
-                                class="status-badge inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full
-              @if ($booking->status === 'completed') text-green-700 bg-green-100
-              @elseif($booking->status === 'cancelled') text-red-700 bg-red-100
-              @else text-blue-700 bg-blue-100 @endif">
-                                {{ ucfirst($booking->status) }}
-                            </span>
+                                <span
+                                    class="status-badge inline-block mt-1 text-xs font-medium px-2 py-0.5 rounded-full
+                  @if ($booking->status === 'completed') text-green-700 bg-green-100
+                  @elseif($booking->status === 'cancelled') text-red-700 bg-red-100
+                  @else text-blue-700 bg-blue-100 @endif">
+                                    {{ ucfirst($booking->status) }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
+                            <button
+                                class="chat-btn bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded-md text-sm transition"
+                                data-phone="{{ $artisan->user->number }}">
+                                Chat on WhatsApp
+                            </button>
+
+                            @if ($booking->status === 'in_progress')
+                                <button
+                                    class="complete-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Mark
+                                    as Complete</button>
+                                <button
+                                    class="cancel-btn bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1.5 rounded-md text-sm transition">Cancel</button>
+                            @elseif ($booking->status === 'completed' && !$booking->review)
+                                <button
+                                    class="review-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Leave
+                                    Review</button>
+                            @elseif ($booking->status === 'cancelled')
+                                <button
+                                    class="rebook-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Rebook</button>
+                            @endif
                         </div>
                     </div>
-
-                    <div class="flex flex-wrap gap-3 mt-4 md:mt-0">
-                        <button
-                            class="chat-btn bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded-md text-sm transition"
-                            data-phone="{{ $artisan->number }}">
-                            Chat on WhatsApp
-                        </button>
-
-                        @if ($booking->status === 'in_progress')
-                            <button
-                                class="complete-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Mark
-                                as Complete</button>
-                            <button
-                                class="cancel-btn bg-red-100 hover:bg-red-200 text-red-700 px-4 py-1.5 rounded-md text-sm transition">Cancel</button>
-                        @elseif ($booking->status === 'completed' && !$booking->review)
-                            <button
-                                class="review-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Leave
-                                Review</button>
-                        @elseif ($booking->status === 'cancelled')
-                            <button
-                                class="rebook-btn bg-gray-100 hover:bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm transition">Rebook</button>
-                        @endif
-                    </div>
-                </div>
+                @endif
             @empty
                 <div id="noBookings" class="mt-20 text-center text-gray-500">
                     <p class="text-lg">No bookings yet</p>

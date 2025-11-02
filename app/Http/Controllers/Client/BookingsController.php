@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Artisan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Booking;
@@ -13,8 +14,9 @@ class BookingsController extends Controller
 {
     public function booking()
     {
-        $bookings = Booking::with(['artisan'])
+        $bookings = Booking::with(['artisan.user', 'skill'])
             ->where('client_id', Auth::id())
+            ->whereHas('artisan')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -23,10 +25,13 @@ class BookingsController extends Controller
 
     public function store(Request $request, $artisanId)
     {
+
+        $artisan = Artisan::findOrFail($artisanId);
+
         Booking::create([
             'client_id' => Auth::id(),
             'artisan_id' => $artisanId,
-            'skill_id' => $request->skill_id,
+            'skill_id' => $artisan->skill_id,
             'booking_date' => Carbon::now(),
             'status' => 'pending',
         ]);
@@ -93,7 +98,7 @@ class BookingsController extends Controller
         ]);
 
         $existing = Review::where('booking_id', $booking->id)->first();
-        if($existing) {
+        if ($existing) {
             return response()->json(['success' => false, 'message' => 'Review already exist'], 400);
         }
 
@@ -106,6 +111,35 @@ class BookingsController extends Controller
             'review' => $validated['review'],
         ]);
 
+       // sleep(1);
+        $this->recalculateRanking($booking->artisan_id);
+
         return response()->json(['success' => true, 'message' => 'Review submitted successfully']);
     }
+
+    private function recalculateRanking($artisanId)
+   {
+       $artisan = Artisan::findOrFail($artisanId);
+
+       $reviews = Review::where('artisan_id', $artisanId)->get();
+
+       if ($reviews->count() === 0) {
+           $artisan->update(['score' => 0, 'tier' => 'Bronze']);
+           return;
+       }
+
+       $averageRating = $reviews->avg('rating');
+       $totalReviews = $reviews->count();
+
+       $score = ($averageRating * 20) + ($totalReviews * 2);
+
+       $tier = $artisan->calculateTier($score, $averageRating);
+
+       $artisan->update([
+           'score' => $score,
+           'tier' => $tier
+       ]);
+
+   }
+
 }

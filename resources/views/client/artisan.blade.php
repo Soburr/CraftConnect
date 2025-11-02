@@ -74,7 +74,7 @@
                             <h3 class="font-medium text-gray-800">{{ $artisan->user->name }}</h3>
                             <p class="text-sm text-gray-500">{{ $artisan->skill->name ?? 'N/A' }} •
                                 {{ $artisan->hall_of_residence ?? 'N/A' }}</p>
-                            <p class="text-sm text-yellow-500">⭐ {{ number_format($artisan->rating ?? 0, 1) }}</p>
+                            <p class="text-sm text-yellow-500">⭐ {{ number_format($artisan->reviews_avg_rating ?? 0, 1) }}</p>
                         </div>
                     </div>
                     <div class="flex gap-3 mt-4 md:mt-0">
@@ -86,10 +86,10 @@
                             data-email="{{ $artisan->user->email }}"
                             data-hall="{{ $artisan->hall_of_residence ?? 'N/A' }}"
                             data-avatar="{{ $artisan->avatar ? asset('storage/' . $artisan->avatar) : 'https://via.placeholder.com/150' }}"
-                            data-rating="{{ number_format($artisan->rating ?? 0, 1) }}">
+                            data-rating="{{ number_format($artisan->reviews_avg_rating ?? 0, 1) }}">
                             View Profile
                         </button>
-                        <form method="POST" action="{{ route('client.book-artisan', $artisan->user->id) }}">
+                        <form method="POST" action="{{ route('client.book-artisan', $artisan->id) }}">
                             @csrf
                             <input type="hidden" name="skill_id" value="{{ $artisan->skill_id }}">
                             <button type="submit"
