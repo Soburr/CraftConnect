@@ -10,7 +10,7 @@ class BookingsController extends Controller
 {
     public function booking()
     {
-        $bookings = Booking::where('artisan_id', Auth::id())
+        $bookings = Booking::where('artisan_id', Auth::user()->artisan->id)
             ->with(['client', 'skill'])
             ->latest()
             ->get();

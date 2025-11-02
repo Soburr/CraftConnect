@@ -11,10 +11,8 @@ class ReviewsController extends Controller
 {
     public function artisanReviews()
     {
-        $artisanId = Auth::id();
-
         $reviews = Review::with(['skill', 'client'])
-                         ->where('artisan_id', $artisanId)
+                         ->where('artisan_id', Auth::user()->artisan->id)
                          ->latest()
                          ->get();
 

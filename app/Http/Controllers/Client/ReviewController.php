@@ -11,9 +11,14 @@ class ReviewController extends Controller
 {
     public function review()
     {
-       $clientId = Auth::id();
+        $clientId = Auth::id();
 
-       $reviews = Review::with('artisan.skill')->where('client_id', $clientId)->latest()->get();
-       return view('client.reviews', compact('reviews'));
+        $reviews = Review::with(['artisan.user', 'skill'])
+            ->where('client_id', $clientId)
+            ->whereHas('artisan.user')
+            ->latest()
+            ->get();
+
+        return view('client.reviews', compact('reviews'));
     }
 }

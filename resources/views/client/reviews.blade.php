@@ -18,8 +18,8 @@
         <div class="p-5 bg-white border border-gray-100 shadow-sm rounded-2xl">
           <div class="flex items-center justify-between mb-2">
             <div>
-              <h3 class="text-lg font-semibold text-gray-800">
-                {{ $review->artisan->name }}
+              <h3 class="text-lg font-semibold text-gray-800"> Artisan name:
+                {{ $review->artisan->user->name }}
               </h3>
               <p class="text-sm text-gray-500">Service: {{ $review->skill->name ?? 'Nil' }}</p>
             </div>
@@ -47,7 +47,7 @@
         </div>
 
 
-          <p class="leading-relaxed text-gray-700">{{ $review->comment }}</p>
+          <p class="leading-relaxed text-gray-700">{{ $review->review }}</p>
         </div>
       @endforeach
     </div>

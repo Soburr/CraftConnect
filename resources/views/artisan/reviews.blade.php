@@ -20,7 +20,7 @@
                             <h3 class="text-lg font-semibold text-gray-800">
                                 Reviewed by: {{ $review->client->name }}
                             </h3>
-                            <p class="text-sm text-gray-500">Service: {{ $review->skill->name ?? 'Nil' }}</p>
+                            {{-- <p class="text-sm text-gray-500">Service: {{ $review->skill->name ?? 'Nil' }}</p> --}}
                         </div>
                         <p class="text-sm text-gray-400">{{ $review->created_at->diffForHumans() }}</p>
                     </div>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
 
-                    <p class="truncate leading-relaxed text-gray-700">{{ \Illuminate\Support\Str::limit($review->comment, 100) }}</p>
+                    <p class="truncate leading-relaxed text-gray-700">{{ \Illuminate\Support\Str::limit($review->review, 100) }}</p>
                 </div>
 
                 {{-- Hidden modal content --}}
@@ -53,7 +53,7 @@
                     <div class="w-full max-w-md p-6 bg-white rounded-2xl shadow-xl relative">
                         <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 modal-close">&times;</button>
                         <h3 class="mb-2 text-lg font-semibold text-gray-800">Reviewed by: {{ $review->client->name }}</h3>
-                        <p class="mb-4 text-sm text-gray-500">Service: {{ $review->skill->name ?? 'Nil' }}</p>
+                        {{-- <p class="mb-4 text-sm text-gray-500">Service: {{ $review->skill->name ?? 'Nil' }}</p> --}}
 
                         <div class="flex items-center mb-4 space-x-2">
                             <span class="text-sm font-medium text-gray-700">{{ number_format($review->rating, 1) }}</span>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
 
-                        <p class="text-gray-700 leading-relaxed">{{ $review->comment }}</p>
+                        <p class="text-gray-700 leading-relaxed">{{ $review->review }}</p>
                     </div>
                 </div>
             @endforeach

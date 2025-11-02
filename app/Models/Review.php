@@ -15,7 +15,7 @@ class Review extends Model
 
     public function artisan()
     {
-        return $this->belongsTo(User::class, 'artisan_id');
+        return $this->belongsTo(Artisan::class, 'artisan_id');
     }
 
     public function client()
