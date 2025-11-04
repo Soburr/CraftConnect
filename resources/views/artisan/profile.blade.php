@@ -9,16 +9,6 @@
         <div class="flex flex-col items-center justify-between mb-8 md:flex-row">
             <div>
                 <h1 class="text-2xl font-semibold text-gray-800">My Profile</h1>
-                @php
-                    $monthsSinceJoined = $user->created_at->diffInMonths(now());
-                @endphp
-                <p class="mt-4 text-sm text-gray-500">
-                    @if ($monthsSinceJoined >= 6)
-                        Lag-Artisan family since {{ $user->created_at->format('F Y') }}
-                    @else
-                        Joined the Lag-Artisan family {{ $user->created_at->diffForHumans() }}
-                    @endif
-                </p>
             </div>
             <div>
                 <button id="editProfileBtn" type="button"

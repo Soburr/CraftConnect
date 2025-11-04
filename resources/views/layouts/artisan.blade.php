@@ -64,13 +64,13 @@
                 <div class="text-xl font-semibold">Artisan Dashboard</div>
                 <div class="flex items-center space-x-4">
                     <span class="font-medium">Welcome, {{ Auth::user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}">
+                    {{-- <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
                             class="px-3 py-1 text-sm font-semibold text-green-700 bg-white rounded hover:bg-gray-100">
                             Logout
                         </button>
-                    </form>
+                    </form> --}}
                 </div>
             </div>
 
