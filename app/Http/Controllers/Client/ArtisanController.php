@@ -50,9 +50,9 @@ class ArtisanController extends Controller
             $query->where('hall_of_residence', $location);
         }
 
-        $artisans = $query->orderByDesc('score')
-                    ->orderByRaw("FIELD(tier, 'Elite', 'Gold', 'Silver', 'Bronze')")
+        $artisans = $query->orderByRaw('reviews_avg_rating IS NULL')
                     ->orderByDesc('reviews_avg_rating')
+                    ->orderByDesc('score')
                     ->get();
 
         return view('client.artisan', compact('artisans', 'categories', 'locations', 'search', 'category', 'location'));

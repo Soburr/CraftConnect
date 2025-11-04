@@ -10,7 +10,7 @@
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
             <div>
                 <h1 class="text-2xl font-semibold text-gray-800">My Profile</h1>
-                @php
+                {{-- @php
                     $monthsSinceJoined = $user->created_at->diffInMonths(now());
                 @endphp
                 <p class="text-sm text-gray-500 mt-4">
@@ -19,7 +19,7 @@
                     @else
                         Joined the Lag-Artisan family {{ $user->created_at->diffForHumans() }}
                     @endif
-                </p>
+                </p> --}}
             </div>
             <div>
                 <button id="editProfileBtn" type="button"

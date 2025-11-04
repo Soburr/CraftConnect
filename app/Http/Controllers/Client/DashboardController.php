@@ -8,13 +8,15 @@ use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function viewDashboard()
     {
-        $clientId = auth()->id();
+        $user = Auth::user()->load('client');
 
+        $clientId = $user->client->id;
         $totalBookings = Booking::where('client_id', $clientId)->count();
         $completedBookings = Booking::where('client_id', $clientId)->where('status', 'completed')->count();
         $totalReviews = Review::where('client_id', $clientId)->count();
@@ -39,7 +41,8 @@ class DashboardController extends Controller
             'totalReviews',
             'pendingBookings',
             'recent',
-            'recommendedArtisans'
+            'recommendedArtisans',
+            'user'
         ));
     }
 
