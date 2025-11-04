@@ -24,7 +24,6 @@ Route::post('/logout', function () {
 
 Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'viewDashboard'])->name('client.dashboard');
-    Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'recentBookings'])->name('client.dashboard');
     Route::get('/find-artisan', [App\Http\Controllers\Client\ArtisanController::class, 'index'])->name('client.artisan');
     Route::get('/profile', [App\Http\Controllers\Client\ProfileController::class, 'profile'])->name('client.profile');
     Route::post('/profile', [App\Http\Controllers\Client\ProfileController::class, 'store'])->name('client.store');

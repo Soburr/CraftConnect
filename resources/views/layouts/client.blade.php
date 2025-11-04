@@ -34,6 +34,12 @@
           <a href="{{ route('client.bookings') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.bookings') ? 'bg-green-900' : '' }}">My Bookings</a>
           <a href="{{ route('client.reviews') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.reviews') ? 'bg-green-900' : '' }}">Reviews</a>
           <a href="{{ route('client.password.edit') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">Change Password</a>
+          <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="px-3 py-1 text-sm font-semibold text-green-700 bg-white rounded hover:bg-gray-100">
+              Logout
+            </button>
+          </form>
         </nav>
       </div>
     </aside>

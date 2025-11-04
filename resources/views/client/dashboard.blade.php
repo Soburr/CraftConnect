@@ -86,51 +86,122 @@
       <tbody>
         @foreach ($recent as $booking)
         <tr class="border-b hover:bg-gray-50">
-            <td class="py-3 px-4">{{ $booking->artisan->name ?? 'N/A' }}</td>
+            <td class="py-3 px-4">{{ $booking->artisan->user->name ?? 'N/A' }}</td>
             <td class="py-3 px-4">{{ $booking->skill->name ?? 'N/A' }}</td>
             <td class="py-3 px-4">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
             <td class="py-3 px-4">{{ \Illuminate\Support\Str::limit($booking->review->review ?? 'No review', 10, '...') }}</td>
         </tr>
         @endforeach
-        
+
       </tbody>
     </table>
   </div>
 
   <!-- Recommended Artisans -->
   <div class="bg-white rounded-xl shadow-md p-6">
-    <h2 class="text-lg font-semibold mb-4 flex items-center text-green-700">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M17 20h5v-2a3 3 0 00-3-3h-4M9 20H4v-2a3 3 0 013-3h4m1-4a4 4 0 110-8 4 4 0 010 8z" />
-      </svg>
-      Recommended Artisans
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="text-center">
-        <div class="w-20 h-20 mx-auto bg-gray-200 rounded-full mb-3"></div>
-        <p class="font-semibold">Chioma</p>
-        <p class="text-sm text-gray-500">Makeup Artist</p>
-        <p class="text-yellow-500">★★★★☆</p>
-        <button class="mt-2 px-4 py-2 text-sm bg-green-600 text-white rounded">View Profile</button>
-      </div>
-      <div class="text-center">
-        <div class="w-20 h-20 mx-auto bg-gray-200 rounded-full mb-3"></div>
-        <p class="font-semibold">Tunde</p>
-        <p class="text-sm text-gray-500">Electrician</p>
-        <p class="text-yellow-500">★★★☆☆</p>
-        <button class="mt-2 px-4 py-2 text-sm bg-green-600 text-white rounded">View Profile</button>
-      </div>
-      <div class="text-center">
-        <div class="w-20 h-20 mx-auto bg-gray-200 rounded-full mb-3"></div>
-        <p class="font-semibold">Tunde</p>
-        <p class="text-sm text-gray-500">Electrician</p>
-        <p class="text-yellow-500">★★★☆☆</p>
-        <button class="mt-2 px-4 py-2 text-sm bg-green-600 text-white rounded">View Profile</button>
-      </div>
-
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold flex items-center text-green-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-3-3h-4M9 20H4v-2a3 3 0 013-3h4m1-4a4 4 0 110-8 4 4 0 010 8z" />
+            </svg>
+            Recommended Artisans
+        </h2>
+        <button id="toggleViewAll" class="text-sm text-green-600 hover:text-green-700 focus:outline-none">
+            <span id="viewAllText">View All →</span>
+        </button>
     </div>
-  </div>
+
+    @if($recommendedArtisans->isEmpty())
+        <p class="text-center text-gray-500 py-8">No artisans available yet</p>
+    @else
+        <div id="recommendedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @foreach($recommendedArtisans as $index => $artisan)
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5 text-center flex flex-col h-full hover:shadow-md transition {{ $index >= 3 ? 'hidden extra-artisan' : '' }}">
+                    <!-- Artisan Avatar -->
+                    <img src="{{ $artisan->avatar ? asset('storage/' . $artisan->avatar) : 'https://via.placeholder.com/80' }}"
+                         alt="{{ $artisan->user->name }}"
+                         class="w-20 h-20 mx-auto bg-gray-200 rounded-full mb-3 object-cover border-2 border-green-500">
+
+                    <!-- Top Badge -->
+                    @if($index === 0)
+                        <span class="inline-block px-2 py-1 text-xs font-semibold text-white bg-yellow-500 rounded-full mb-2">
+                            🏆 Top Rated
+                        </span>
+                    @else
+                        <div class="h-7 mb-2"></div> {{-- Spacer to maintain height --}}
+                    @endif
+
+                    <!-- Name -->
+                    <p class="font-semibold text-gray-800">{{ $artisan->user->name }}</p>
+
+                    <!-- Skill -->
+                    <p class="text-sm text-gray-500 mb-2">{{ $artisan->skill->name ?? 'N/A' }}</p>
+
+                    <!-- Rating Stars -->
+                    <div class="flex justify-center items-center space-x-1 my-2">
+                        @php
+                            $rating = $artisan->reviews_avg_rating ?? 0;
+                            $fullStars = floor($rating);
+                        @endphp
+
+                        @for($i = 1; $i <= 5; $i++)
+                            @if($i <= $fullStars)
+                                <span class="text-yellow-400 text-base">★</span>
+                            @else
+                                <span class="text-gray-300 text-base">★</span>
+                            @endif
+                        @endfor
+                        <span class="text-xs text-gray-500 ml-1">({{ number_format($rating, 1) }})</span>
+                    </div>
+
+                    <!-- Tier Badge -->
+                    <span class="inline-block px-2 py-1 text-xs font-medium rounded-full mb-3
+                        @if($artisan->tier === 'Elite') bg-purple-100 text-purple-700
+                        @elseif($artisan->tier === 'Gold') bg-yellow-100 text-yellow-700
+                        @elseif($artisan->tier === 'Silver') bg-gray-100 text-gray-700
+                        @else bg-orange-100 text-orange-700
+                        @endif">
+                        {{ $artisan->tier }}
+                    </span>
+
+                    <!-- Book Now Button - Pushed to bottom -->
+                    <form method="POST" action="{{ route('client.book-artisan', $artisan->id) }}" class="mt-auto">
+                        @csrf
+                        <input type="hidden" name="skill_id" value="{{ $artisan->skill_id }}">
+                        <button type="submit" class="w-full px-4 py-2 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition">
+                            Book Now
+                        </button>
+                    </form>
+                </div>
+            @endforeach
+        </div>
+    @endif
+</div>
+
+{{-- JavaScript for View All toggle --}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('toggleViewAll');
+        const viewAllText = document.getElementById('viewAllText');
+        const extraArtisans = document.querySelectorAll('.extra-artisan');
+        let isExpanded = false;
+
+        toggleBtn?.addEventListener('click', () => {
+            isExpanded = !isExpanded;
+
+            extraArtisans.forEach(artisan => {
+                if (isExpanded) {
+                    artisan.classList.remove('hidden');
+                } else {
+                    artisan.classList.add('hidden');
+                }
+            });
+
+            viewAllText.textContent = isExpanded ? '← Show Less' : 'View All →';
+        });
+    });
+</script>
 
 </div>
 
