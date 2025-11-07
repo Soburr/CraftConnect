@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -18,16 +17,16 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['password', Password::defaults()]
+            'password' => ['required', 'string']
         ]);
 
-        if(Auth::guard('admin')->attempt($credentials, $request->remember)) {
-           $request->session()->regenerate();
-           return redirect()->route('admin.admin.dashboard')->with('success', 'Welcome back, Super Admin');
+        if (Auth::guard('admin')->attempt($credentials, $request->remember)) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.admin.dashboard')->with('success', 'Welcome back, Super Admin');
         }
 
         return back()->withErrors([
-            'email' => 'Invalid email or password'
+            'email' => 'Cmon man, you sure you are the Super Admin??'
         ]);
     }
 }

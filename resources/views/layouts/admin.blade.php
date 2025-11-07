@@ -28,12 +28,12 @@
       <div class="p-6">
         <h2 class="mb-10 text-2xl font-bold">Lag Artisans</h2>
         <nav class="space-y-4">
-          <a href="#">Overview</a>
-          <a href="#">Profile</a>
-          <a href="#">Find Artisans</a>
-          <a href="#">My Bookings</a>
-          <a href="#">Reviews</a>
-          <a href="#">Change Password</a>
+          <a href="{{ route('client.dashboard') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.dashboard') ? 'bg-green-900' : '' }}">Overview</a>
+          <a href="{{ route('client.profile') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.profile') ? 'bg-green-900' : '' }}">Profile</a>
+          <a href="{{ route('client.artisan') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.artisan') ? 'bg-green-900' : '' }}">Find Artisans</a>
+          <a href="{{ route('client.bookings') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.bookings') ? 'bg-green-900' : '' }}">My Bookings</a>
+          <a href="{{ route('client.reviews') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.reviews') ? 'bg-green-900' : '' }}">Reviews</a>
+          <a href="{{ route('client.password.edit') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">Change Password</a>
           <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="px-3 py-1 text-sm font-semibold text-green-700 bg-white rounded hover:bg-gray-100">
@@ -51,15 +51,9 @@
     <main class="flex-1 w-full min-h-screen overflow-y-auto md:ml-64 bg-gray-50">
       <!-- Fixed top header (desktop) -->
       <div class="sticky top-0 z-30 items-center justify-between hidden px-6 py-4 text-white bg-green-600 md:flex">
-        <div class="text-xl font-semibold">Client Dashboard</div>
+        <div class="text-xl font-semibold">Admin Dashboard</div>
         <div class="flex items-center space-x-4">
           <span class="font-medium">Welcome, {{ Auth::user()->name }}</span>
-          {{-- <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="px-3 py-1 text-sm font-semibold text-green-700 bg-white rounded hover:bg-gray-100">
-              Logout
-            </button>
-          </form> --}}
         </div>
       </div>
 

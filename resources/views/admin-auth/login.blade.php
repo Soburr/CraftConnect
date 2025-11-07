@@ -36,7 +36,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-6">
+                <form method="POST" action="{{ route('admin.login.submit') }}" class="space-y-6">
                     @csrf
                       <input name="email" type="email" placeholder="Email Address" value="{{ old('email') }}"
                           class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required>

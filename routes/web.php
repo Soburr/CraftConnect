@@ -62,11 +62,11 @@ Route::middleware(['auth', 'role:artisan'])->prefix('artisan/dashboard')->group(
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login.submit');
+    Route::get('/sign-in', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/sign-in', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login.submit');
 
     Route::middleware(['auth:admin'])->group(function () {
-        Route::post('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     });
 });
 
