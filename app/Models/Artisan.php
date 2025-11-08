@@ -61,4 +61,9 @@ class Artisan extends Model
     {
         return $this->reviews()->avg('rating') ?? 0;
     }
+    
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'artisan_id');
+    }
 }

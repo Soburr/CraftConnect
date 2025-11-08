@@ -28,12 +28,12 @@
       <div class="p-6">
         <h2 class="mb-10 text-2xl font-bold">Lag Artisans</h2>
         <nav class="space-y-4">
-          <a href="{{ route('client.dashboard') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.dashboard') ? 'bg-green-900' : '' }}">Overview</a>
-          <a href="{{ route('client.profile') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.profile') ? 'bg-green-900' : '' }}">Profile</a>
-          <a href="{{ route('client.artisan') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.artisan') ? 'bg-green-900' : '' }}">Find Artisans</a>
-          <a href="{{ route('client.bookings') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.bookings') ? 'bg-green-900' : '' }}">My Bookings</a>
+          <a href="{{ route('admin.dashboard') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('admin.dashboard') ? 'bg-green-900' : '' }}">Overview</a>
+          <a href="{{ route('admin.artisans.index') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('admin.artisans.index') ? 'bg-green-900' : '' }}">Artisans</a>
+          <a href="{{ route('admin.clients.index') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('admin.clients.index') ? 'bg-green-900' : '' }}">Clients</a>
+          {{-- <a href="{{ route('client.bookings') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.bookings') ? 'bg-green-900' : '' }}">My Bookings</a>
           <a href="{{ route('client.reviews') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('client.reviews') ? 'bg-green-900' : '' }}">Reviews</a>
-          <a href="{{ route('client.password.edit') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">Change Password</a>
+          <a href="{{ route('client.password.edit') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">Change Password</a> --}}
           <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="px-3 py-1 text-sm font-semibold text-green-700 bg-white rounded hover:bg-gray-100">

@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\ArtisanManagementController;
+use App\Http\Controllers\Admin\ClientManagementController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -62,11 +65,23 @@ Route::middleware(['auth', 'role:artisan'])->prefix('artisan/dashboard')->group(
 
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/sign-in', [App\Http\Controllers\Admin\AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/sign-in', [App\Http\Controllers\Admin\AuthController::class, 'login'])->name('login.submit');
+    Route::get('/sign-in', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/sign-in', [AuthController::class, 'login'])->name('login.submit');
 
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+        // Artisan management
+        Route::get('/artisans', [ArtisanManagementController::class, 'index'])->name('artisans.index');
+        Route::get('/artisans/{id}', [ArtisanManagementController::class, 'show'])->name('artisans.show');
+        Route::post('/artisans/{id}/suspend', [ArtisanManagementController::class, 'suspend'])->name('artisans.suspend');
+        Route::post('/artisans/{id}/block', [ArtisanManagementController::class, 'block'])->name('artisans.block');
+        Route::delete('/artisans/{id}', [ArtisanManagementController::class, 'destroy'])->name('artisans.destroy');
+
+        // Client management
+        Route::get('/clients', [ClientManagementController::class, 'index'])->name('clients.index');
+        Route::get('/clients/{id}', [ClientManagementController::class, 'show'])->name('clients.show');
+        Route::delete('/clients/{id}', [ClientManagementController::class, 'destroy'])->name('clients.destroy');
     });
 });
 
