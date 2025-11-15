@@ -31,15 +31,7 @@
                 <td class="p-3">{{ $artisan->artisan->skill->name ?? 'N/A' }}</td>
                 <td class="p-3 capitalize">{{ $artisan->status }}</td>
                 <td class="p-3 text-center">
-                    <a href="{{ route('admin.artisans.show', $artisan->id) }}" class="text-blue-600 hover:underline">View</a>
-                    <form action="{{ route('admin.artisans.suspend', $artisan->id) }}" method="POST" class="inline">
-                        @csrf
-                        <button class="text-yellow-600 ml-3">Suspend</button>
-                    </form>
-                    <form action="{{ route('admin.artisans.block', $artisan->id) }}" method="POST" class="inline">
-                        @csrf
-                        <button class="text-red-600 ml-3">Block</button>
-                    </form>
+                    <a href="{{ route('admin.artisans.show', $artisan->id) }}" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded">View</a>
                 </td>
             </tr>
             @empty
