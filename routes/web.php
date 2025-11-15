@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\ArtisanManagementController;
+use App\Http\Controllers\Admin\CategoryManagementController;
 use App\Http\Controllers\Admin\ClientManagementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SkillManagementController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -82,6 +84,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/clients', [ClientManagementController::class, 'index'])->name('clients.index');
         Route::get('/clients/{id}', [ClientManagementController::class, 'show'])->name('clients.show');
         Route::delete('/clients/{id}', [ClientManagementController::class, 'destroy'])->name('clients.destroy');
+
+        // Category management
+        Route::get('/categories', [CategoryManagementController::class, 'index'])->name('categories.index');
+        Route::post('/categories', [CategoryManagementController::class, 'store'])->name('categories.store');
+        Route::put('/categories/{id}', [CategoryManagementController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{id}', [CategoryManagementController::class, 'destroy'])->name('categories.destroy');
+
+        // Skill management
+        Route::get('/skills', [SkillManagementController::class, 'index'])->name('skills.index');
+        Route::post('/skills', [SkillManagementController::class, 'store'])->name('skills.store');
+        Route::put('/skills/{id}', [SkillManagementController::class, 'update'])->name('skills.update');
+        Route::delete('/skills/{id}', [SkillManagementController::class, 'destroy'])->name('skills.destroy');
+
     });
 });
 
