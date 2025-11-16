@@ -27,6 +27,9 @@ Route::post('/logout', function () {
     return redirect('/');
 })->name('logout');
 
+Route::post('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'store'])->name('testimonial.store');
+Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'getAll'])->name('testimonial.get');
+
 Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'viewDashboard'])->name('client.dashboard');
     Route::get('/find-artisan', [App\Http\Controllers\Client\ArtisanController::class, 'index'])->name('client.artisan');
