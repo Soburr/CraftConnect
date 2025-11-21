@@ -1,16 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\ArtisanManagementController;
 use App\Http\Controllers\Admin\CategoryManagementController;
 use App\Http\Controllers\Admin\ClientManagementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SkillManagementController;
+use App\Http\Controllers\HomepageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /**General Homepage */
-Route::get('/', static fn() => view('homepage'))->name('homepage');
+Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 
 /**Authentication */
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
@@ -99,6 +101,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/skills', [SkillManagementController::class, 'store'])->name('skills.store');
         Route::put('/skills/{id}', [SkillManagementController::class, 'update'])->name('skills.update');
         Route::delete('/skills/{id}', [SkillManagementController::class, 'destroy'])->name('skills.destroy');
+
+        // Testimonials
+        Route::get('/testimonials', [AdminTestimonialController::class, 'index'])->name('testimonials.index');
+        Route::post('/testimonials/{id}/approve', [AdminTestimonialController::class, 'approve'])->name('testimonials.approve');
+        Route::post('/testimonials/{id}/reject', [AdminTestimonialController::class, 'reject'])->name('testimonials.reject');
 
     });
 });

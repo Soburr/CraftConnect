@@ -166,34 +166,39 @@
                 <div id="testimonial-track" class="flex transition-transform duration-700">
 
                     <!-- Testimonial -->
+                    @forelse ($testimonials as $testimonial)                    
                     <div class="min-w-full px-6">
                         <div class="p-6 text-center bg-green-100 shadow rounded-xl">
-                            <p class="italic text-gray-700">"I needed a carpenter urgently to fix my broken wardrobe, and
-                                Unilag Artisan connected me within minutes."</p>
-                            <div class="mt-4 font-semibold">Aishat Lawal</div>
-                            <div class="text-sm text-gray-500">Student, Faculty of Law</div>
+                            <p class="italic text-gray-700">"{{ $testimonial->message }}"</p>
+                            <div class="mt-4 font-semibold">{{ $testimonial->name }}</div>
+                              <div class="text-sm text-gray-500">{{ $testimonial->created_at->format('M d, Y') }}</div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="min-w-full px-6">
+                        <div class="p-6 text-center bg-green-100 shadow rounded-xl">
+                            <p class="italic text-gray-700">"Such a great platform, connecting with an artisan was so easy"</p>
+                            <div class="mt-4 font-semibold">Oladele Elizabeth</div>
+                              <div class="text-sm text-gray-500">Nov 12, 2025</div>
                         </div>
                     </div>
 
-                    <!-- Testimonial -->
                     <div class="min-w-full px-6">
                         <div class="p-6 text-center bg-green-100 shadow rounded-xl">
-                            <p class="italic text-gray-700">"Unilag Artisans is a lifesaver! I found a plumber in no time.
-                                Easy to use and trustworthy."</p>
-                            <div class="mt-4 font-semibold">David Adejobu</div>
-                            <div class="text-sm text-gray-500">Lecturer, Dept. of Engineering</div>
+                            <p class="italic text-gray-700">"Easy to use"</p>
+                            <div class="mt-4 font-semibold">Anifowoshe Precious</div>
+                              <div class="text-sm text-gray-500">Nov 21, 2025</div>
                         </div>
                     </div>
 
-                    <!-- Testimonial -->
                     <div class="min-w-full px-6">
                         <div class="p-6 text-center bg-green-100 shadow rounded-xl">
-                            <p class="italic text-gray-700">"Finding artisans used to be stressful, but now it’s fast and
-                                reliable. Excellent service!"</p>
-                            <div class="mt-4 font-semibold">Chioma Eze</div>
-                            <div class="text-sm text-gray-500">Business Owner, Yaba</div>
+                            <p class="italic text-gray-700">"It took an artisan less than 5 minutes to reach out. This is very cool."</p>
+                            <div class="mt-4 font-semibold">Williams</div>
+                              <div class="text-sm text-gray-500">Nov 22, 2025</div>
                         </div>
                     </div>
+                    @endforelse
                 </div>
 
                 <!-- Dots -->

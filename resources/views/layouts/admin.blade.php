@@ -40,7 +40,7 @@
                         class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('admin.categories.index') ? 'bg-green-900' : '' }}">Categories
                         Management</a>
                     <a href="{{ route('admin.skills.index') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('admin.skills.index') ? 'bg-green-900' : '' }}">Skills Management</a>
-                 {{--  <a href="{{ route('client.password.edit') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('password.edit') ? 'bg-green-900' : '' }}">Change Password</a> --}}
+                    <a href="{{ route('admin.testimonials.index') }}" class="block py-2 px-4 rounded hover:bg-green-800 {{ request()->routeIs('admin.testimonials.index') ? 'bg-green-900' : '' }}">Testimonials</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
