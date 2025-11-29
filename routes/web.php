@@ -32,6 +32,10 @@ Route::post('/logout', function () {
 Route::post('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'store'])->name('testimonial.store');
 Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'getAll'])->name('testimonial.get');
 
+
+Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.create');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.store');
+
 Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'viewDashboard'])->name('client.dashboard');
     Route::get('/find-artisan', [App\Http\Controllers\Client\ArtisanController::class, 'index'])->name('client.artisan');

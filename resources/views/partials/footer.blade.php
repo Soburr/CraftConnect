@@ -3,7 +3,7 @@
 
         <!-- Column 1 -->
         <div>
-            <h2 class="text-xl font-bold text-green-600">UNILAG ARTISAN</h2>
+            <h2 class="text-xl font-bold text-green-600">LAG ARTISAN</h2>
             <p class="mt-4 text-sm leading-relaxed">
                 Connecting skilled artisans with clients both on and off campus for quality and reliable services.
             </p>
@@ -51,6 +51,12 @@
 
     <!-- Bottom -->
     <div class="py-4 mt-6 text-sm text-center border-t border-gray-300">
-        © 2025 <span class="font-semibold text-green-600">Unilag Artisan</span>. All Rights Reserved.
+        &copy; <span id="copyright-year"></span>
+         <span class="font-semibold text-green-600">
+            Lag Artisan
+        </span>.  All Rights Reserved.
     </div>
+    <script>
+        document.getElementById('copyright-year').textContent = new Date().getFullYear();
+    </script>
 </footer>

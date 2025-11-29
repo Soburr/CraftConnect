@@ -55,7 +55,7 @@
                 </div>
                 <p>
                     <span class="font-semibold">Browse Services</span><br>
-                    Explore student-artisans offering skills across categories -- from repairs and fashion to tech and
+                    Explore student-artisans offering skills across categories —— from repairs and fashion to tech and
                     tutoring.
                 </p>
             </div>
@@ -104,7 +104,7 @@
 
 
     <!-- Popular Services -->
-    <section class="py-12 bg-green-600">
+    <section id="popular-services" class="py-12 bg-green-600">
         <div class="px-4 mx-auto max-w-7xl">
             <h2 class="mb-8 text-3xl font-bold text-center text-white">Popular Services</h2>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -166,7 +166,7 @@
                 <div id="testimonial-track" class="flex transition-transform duration-700">
 
                     <!-- Testimonial -->
-                    @forelse ($testimonials as $testimonial)                    
+                    @forelse ($testimonials as $testimonial)
                     <div class="min-w-full px-6">
                         <div class="p-6 text-center bg-green-100 shadow rounded-xl">
                             <p class="italic text-gray-700">"{{ $testimonial->message }}"</p>
