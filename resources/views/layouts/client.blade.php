@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title', 'Client Dashboard')</title>
+
+  <link rel="icon" type="image/png" href="{{ asset('favicon.png?v=4') }}">
+  <link rel="shortcut icon" href="{{ asset('favicon.png?v=4') }}" type="image/png">
+  <link rel="apple-touch-icon" href="{{ asset('favicon.png?v=4')}}">
+
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-gray-800 bg-gray-50">

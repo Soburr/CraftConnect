@@ -85,7 +85,7 @@
 
                 <!-- Phone Number -->
                 <div>
-                    <label class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                    <label class="block text-gray-700 font-medium mb-2">Whatsapp Number</label>
                     <input type="text" name="number" value="{{ $user->number }}" disabled
                         class="profile-input w-full border border-gray-300 rounded-lg px-4 py-2
                bg-gray-100 focus:outline-none focus:ring-2 focus:ring-green-500">

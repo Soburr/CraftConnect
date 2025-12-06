@@ -101,9 +101,9 @@
                         class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg profile-input focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
 
-                <!-- Phone Number -->
+                <!-- Whatsapp Number -->
                 <div>
-                    <label class="block mb-2 font-medium text-gray-700">Phone Number</label>
+                    <label class="block mb-2 font-medium text-gray-700">Whatsapp Number</label>
                     <input type="text" name="number" value="{{ $user->number }}" disabled
                         class="w-full px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg profile-input focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>

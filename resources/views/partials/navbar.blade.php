@@ -4,7 +4,7 @@
 
         <!-- Logo -->
         <a class="navbar-brand" href="#">
-            <img src="{{ asset('Images/logo.png') }}" alt="Logo" width="40" height="40"
+            <img src="{{ asset('Images/logo.png') }}" alt="Logo" width="140" height="140"
                 class="align-text-top d-inline-block">
         </a>
 
