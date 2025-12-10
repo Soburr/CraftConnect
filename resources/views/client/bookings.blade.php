@@ -150,7 +150,23 @@
 
                 // Chat button
                 chatBtn?.addEventListener('click', () => {
-                    const phone = chatBtn.dataset.phone;
+                    // const phone = chatBtn.dataset.phone;
+                    let phone = chatBtn.dataset.phone;
+
+                    phone = phone.replace(/[\s\-\(\)]/g, '');
+
+                    if (phone.startsWith('0')) {
+                        phone = '234' + phone.substring(1);
+                    }
+
+                    if (phone.startsWith('+234')) {
+                        phone = phone.substring(1);
+                    }
+
+                    if (!phone.startsWith('234')) {
+                        phone = '234' + phone;
+                    }
+
                     window.open(`https://wa.me/${phone}`, '_blank');
                 });
 
@@ -177,10 +193,12 @@
             });
 
             function updateBookingStatus(id, action, card, badge) {
-                fetch(`/client/dashboard/bookings/${id}/${action}`, {
+                fetch(`{{ url('/client/dashboard/bookings') }}/${id}/${action}`, {
                         method: 'POST',
+                        credentials: 'include',
                         headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                         }
                     })
                     .then(res => res.json())

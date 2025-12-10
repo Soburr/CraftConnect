@@ -18,6 +18,13 @@ class Booking extends Model
         'cancelled_at'
     ];
 
+    protected $casts = [
+        'client_id' => 'integer',
+        'artisan_id' => 'integer',
+        'skill_id' => 'integer',
+        'booking_date' => 'datetime',
+        'cancelled_at' => 'datetime'
+    ];
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');

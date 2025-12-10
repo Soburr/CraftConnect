@@ -41,21 +41,22 @@
                     @csrf
 
                     <input type="text" placeholder="Full Name" name="name"
-                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required>
+                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" value="{{ old('name') }}" required>
 
                     <input type="email" placeholder="Email Address" name="email"
-                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required>
+                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" value="{{ old('email') }}" required>
 
                     <input type="number" placeholder="Phone Number" name="number"
-                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required>
+                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" value="{{ old('number') }}" required>
 
                     <div>
                         <select name="role" id="role"
-                            class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required>
-                            <option value="" disabled selected hidden>Register As</option>
-                            <option value="client">Client</option>
-                            <option value="artisan">Artisan</option>
-                        </select>
+                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required>
+                        <option value="" disabled hidden>Register As</option>
+                        <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>Client</option>
+                        <option value="artisan" {{ old('role') == 'artisan' ? 'selected' : '' }}>Artisan</option>
+                    </select>
+
                     </div>
 
                     <!-- Password -->

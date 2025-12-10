@@ -41,7 +41,7 @@ class BookingsController extends Controller
 
     public function markComplete(Booking $booking)
     {
-        if ($booking->client_id !== Auth::id()) {
+        if ($booking->client_id != Auth::id()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
@@ -52,7 +52,7 @@ class BookingsController extends Controller
 
     public function cancel(Booking $booking)
     {
-        if ($booking->client_id !== Auth::id()) {
+        if ($booking->client_id != Auth::id()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
@@ -66,7 +66,7 @@ class BookingsController extends Controller
 
     public function rebook(Booking $booking)
     {
-        if ($booking->client_id !== Auth::id()) {
+        if ($booking->client_id != Auth::id()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
