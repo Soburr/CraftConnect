@@ -78,39 +78,41 @@
         </div>
 
         <!-- Recent Bookings Table -->
-        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-lg font-semibold mb-4 flex items-center text-green-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-green-600" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Recent Bookings
-            </h2>
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b text-gray-600">
-                        <th class="py-3 px-4">Name</th>
-                        <th class="py-3 px-4">Skill</th>
-                        <th class="py-3 px-4">Date</th>
-                        <th class="py-3 px-4">Review</th>
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4 flex items-center text-green-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-green-600" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        Recent Bookings
+    </h2>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="border-b text-gray-600">
+                    <th class="py-3 px-4 whitespace-nowrap">Name</th>
+                    <th class="py-3 px-4 whitespace-nowrap">Skill</th>
+                    <th class="py-3 px-4 whitespace-nowrap">Date</th>
+                    <th class="py-3 px-4 whitespace-nowrap">Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($recent as $booking)
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-3 px-4 whitespace-nowrap">{{ $booking->artisan->user->name ?? 'N/A' }}</td>
+                        <td class="py-3 px-4 whitespace-nowrap">{{ $booking->skill->name ?? 'N/A' }}</td>
+                        <td class="py-3 px-4 whitespace-nowrap">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
+                        <td class="py-3 px-4">
+                            {{ \Illuminate\Support\Str::limit($booking->review->review ?? 'No review', 10, '...') }}
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($recent as $booking)
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="py-3 px-4">{{ $booking->artisan->user->name ?? 'N/A' }}</td>
-                            <td class="py-3 px-4">{{ $booking->skill->name ?? 'N/A' }}</td>
-                            <td class="py-3 px-4">{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
-                            <td class="py-3 px-4">
-                                {{ \Illuminate\Support\Str::limit($booking->review->review ?? 'No review', 10, '...') }}
-                            </td>
-                        </tr>
-                    @endforeach
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 
-                </tbody>
-            </table>
-        </div>
 
         <!-- Recommended Artisans -->
         <div class="bg-white rounded-xl shadow-md p-6">
