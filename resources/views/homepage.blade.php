@@ -11,7 +11,7 @@
                     <h1 style="font-size: 30px; font-family: 'Poppins', sans-serif;" class="mb-4 fw-bold">Connect With An
                         Artisan Today!</h1>
                     <p class="mb-5 lead">
-                        Discover, Book and work Skilled Student-Artisans Right on Campus —— Quick, Reliable and affordable.
+                        Discover, Book and work with Skilled UNILAG Student-Artisans Right on Campus — Quick, Reliable and affordable.
                     </p>
 
                     <div class="flex-wrap gap-3 d-flex">
@@ -55,7 +55,7 @@
                 </div>
                 <p>
                     <span class="font-semibold">Browse Services</span><br>
-                    Explore student-artisans offering skills across categories —— from repairs and fashion to tech and
+                    Explore UNILAG student-artisans offering skills across categories — from repairs and fashion to tech and
                     tutoring.
                 </p>
             </div>
@@ -117,9 +117,9 @@
                     <div class="flex flex-col flex-grow mt-4">
                         <h3 class="text-lg font-bold">Carpentry works</h3>
                         {{-- <p class="font-semibold text-gray-700">₦2,000</p> --}}
-                        <button
-                            class="w-full py-2 mt-auto font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700">Book
-                            Now</button>
+                        <a href="{{ route('client.artisan') }}"
+                            class="w-full py-2 mt-auto font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 block text-center">Book
+                            Now</a>
                     </div>
                 </div>
 
@@ -131,9 +131,9 @@
                     <div class="flex flex-col flex-grow mt-4">
                         <h3 class="text-lg font-bold">Gadgets repair</h3>
                         {{-- <p class="font-semibold text-gray-700">₦2,000</p> --}}
-                        <button
-                            class="w-full py-2 mt-auto font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700">Book
-                            Now</button>
+                        <a href="{{ route('client.artisan') }}"
+                            class="w-full py-2 mt-auto font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 block text-center">Book
+                            Now</a>
                     </div>
                 </div>
 
@@ -145,9 +145,9 @@
                     <div class="flex flex-col flex-grow mt-4">
                         <h3 class="text-lg font-bold">Hair styling</h3>
                         {{-- <p class="font-semibold text-gray-700">₦2,000</p> --}}
-                        <button
-                            class="w-full py-2 mt-auto font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700">Book
-                            Now</button>
+                        <a href="{{ route('client.artisan') }}"
+                            class="w-full py-2 mt-auto font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 block text-center">Book
+                            Now</a>
                     </div>
                 </div>
 
@@ -179,6 +179,7 @@
                         <div class="p-6 text-center bg-green-100 shadow rounded-xl">
                             <p class="italic text-gray-700">"Such a great platform, connecting with an artisan was so easy"</p>
                             <div class="mt-4 font-semibold">Oladele Elizabeth</div>
+                            <div class="text-sm text-gray-500">faculty of engineering</div>
                               <div class="text-sm text-gray-500">Nov 12, 2025</div>
                         </div>
                     </div>
@@ -187,6 +188,7 @@
                         <div class="p-6 text-center bg-green-100 shadow rounded-xl">
                             <p class="italic text-gray-700">"Easy to use"</p>
                             <div class="mt-4 font-semibold">Anifowoshe Precious</div>
+                            <div class="text-sm text-gray-500">faculty of science</div>
                               <div class="text-sm text-gray-500">Nov 21, 2025</div>
                         </div>
                     </div>
@@ -195,6 +197,7 @@
                         <div class="p-6 text-center bg-green-100 shadow rounded-xl">
                             <p class="italic text-gray-700">"It took an artisan less than 5 minutes to reach out. This is very cool."</p>
                             <div class="mt-4 font-semibold">Williams</div>
+                            <div class="text-sm text-gray-500">faculty of arts</div>
                               <div class="text-sm text-gray-500">Nov 22, 2025</div>
                         </div>
                     </div>

@@ -88,4 +88,31 @@ class User extends Authenticatable
     {
       return $this->belongsTo(Skill::class, 'skill_id');
     }
+    public function hasCompletedProfile()
+    {
+        if ($this->role === 'client') {
+            // Check if client record exists and has required fields filled
+            return $this->client 
+                && !empty($this->client->hall_of_residence)
+                && !empty($this->client->faculty)
+                && !empty($this->client->department)
+                && !empty($this->client->room_number)
+                && !empty($this->client->matric_no);
+        }
+        
+        if ($this->role === 'artisan') {
+            // Check if artisan record exists and has required fields filled
+            return $this->artisan
+                && !empty($this->artisan->hall_of_residence)
+                && !empty($this->artisan->skill_id)
+                && !empty($this->artisan->category_id)
+                && !empty($this->artisan->years_of_experience)
+                && !empty($this->artisan->faculty)
+                && !empty($this->artisan->department)
+                && !empty($this->artisan->room_number)
+                && !empty($this->artisan->matric_no);
+        }
+    
+    return true;
+    }
 }
