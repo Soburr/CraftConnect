@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -23,7 +25,9 @@ class User extends Authenticatable
         'password',
         'number',
         'role',
-        'status'
+        'status',
+        'verification_token',
+        'verification_token_expires',
     ];
 
     /**
@@ -34,6 +38,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'verification_token',
     ];
 
     /**
@@ -45,6 +50,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'verification_token_expires' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -92,14 +98,14 @@ class User extends Authenticatable
     {
         if ($this->role === 'client') {
             // Check if client record exists and has required fields filled
-            return $this->client 
+            return $this->client
                 && !empty($this->client->hall_of_residence)
                 && !empty($this->client->faculty)
                 && !empty($this->client->department)
                 && !empty($this->client->room_number)
                 && !empty($this->client->matric_no);
         }
-        
+
         if ($this->role === 'artisan') {
             // Check if artisan record exists and has required fields filled
             return $this->artisan
@@ -112,7 +118,54 @@ class User extends Authenticatable
                 && !empty($this->artisan->room_number)
                 && !empty($this->artisan->matric_no);
         }
-    
+
     return true;
+    }
+    /**
+     * Generate and store verification token
+     */
+    public function generateVerificationToken()
+    {
+        $plainToken = Str::random(60);
+        $this->verification_token = hash('sha256', $plainToken);
+        $this->verification_token_expires = now()->addHours(24);
+        $this->save();
+
+        return $plainToken;
+    }
+
+    /**
+     * Check if verification token is valid
+     */
+    public function hasValidVerificationToken($token)
+    {
+        if (!$this->verification_token) {
+            return false;
+        }
+
+        if ($this->verification_token_expires && $this->verification_token_expires->isPast()) {
+            return false;
+        }
+
+        return hash_equals($this->verification_token, hash('sha256', $token));
+    }
+
+    /**
+     * Mark email as verified
+     */
+    public function markEmailAsVerified()
+    {
+        $this->email_verified_at = now();
+        $this->verification_token = null;
+        $this->verification_token_expires = null;
+        $this->save();
+    }
+
+    /**
+     * Check if email is verified
+     */
+    public function hasVerifiedEmail()
+    {
+        return !is_null($this->email_verified_at);
     }
 }

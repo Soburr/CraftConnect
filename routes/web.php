@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\ArtisanManagementController;
 use App\Http\Controllers\Admin\CategoryManagementController;
 use App\Http\Controllers\Admin\ClientManagementController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SkillManagementController;
@@ -17,6 +18,10 @@ Route::get('/', [HomepageController::class, 'index'])->name('homepage');
 /**Authentication */
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/verify-email', [VerificationController::class, 'verify'])->name('verification.verify');
+Route::get('/email/verify', [VerificationController::class, 'notice'])->name('verification.notice');
+Route::post('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -36,7 +41,7 @@ Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class,
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.create');
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.store');
 
-Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
+Route::middleware(['auth', 'verified', 'role:client'])->prefix('client/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'viewDashboard'])->name('client.dashboard');
     Route::get('/find-artisan', [App\Http\Controllers\Client\ArtisanController::class, 'index'])->name('client.artisan');
     Route::get('/profile', [App\Http\Controllers\Client\ProfileController::class, 'profile'])->name('client.profile');
@@ -46,7 +51,7 @@ Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(fu
     Route::put('/change-password', [App\Http\Controllers\Client\PasswordChangeController::class, 'update'])->name('client.password.update');
 });
 
-Route::middleware(['auth', 'role:client'])->prefix('client/dashboard/bookings')->group(function () {
+Route::middleware(['auth', 'verified', 'role:client'])->prefix('client/dashboard/bookings')->group(function () {
     Route::get('/', [App\Http\Controllers\Client\BookingsController::class, 'booking'])->name('client.bookings');
     Route::post('/{booking}/complete', [App\Http\Controllers\Client\BookingsController::class, 'markComplete']);
     Route::post('/{booking}/cancel', [App\Http\Controllers\Client\BookingsController::class, 'cancel']);
@@ -54,7 +59,7 @@ Route::middleware(['auth', 'role:client'])->prefix('client/dashboard/bookings')-
     Route::post('/{booking}/review', [App\Http\Controllers\Client\BookingsController::class, 'review']);
 });
 
-Route::middleware(['auth', 'role:client'])->prefix('client/dashboard')->group(function () {
+Route::middleware(['auth', 'verified', 'role:client'])->prefix('client/dashboard')->group(function () {
     Route::post('/book-artisan/{artisan}', [App\Http\Controllers\Client\BookingsController::class, 'store'])
         ->name('client.book-artisan');
 });
@@ -64,7 +69,7 @@ Route::post('/book-artisan/{artisan}', [App\Http\Controllers\Client\ArtisanContr
 
 
 
-Route::middleware(['auth', 'role:artisan'])->prefix('artisan/dashboard')->group(function () {
+Route::middleware(['auth', 'verified', 'role:artisan'])->prefix('artisan/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Artisan\DashboardController::class, 'viewDashboard'])->name('artisan.dashboard');
     Route::get('/profile', [App\Http\Controllers\Artisan\ProfileController::class, 'profile'])->name('artisan.profile');
     Route::post('/profile', [App\Http\Controllers\Artisan\ProfileController::class, 'store'])->name('artisan.store');

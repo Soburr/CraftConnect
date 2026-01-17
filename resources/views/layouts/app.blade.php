@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Lag Artisans') }}</title>
+        <title>Lag Artisans - Find Trusted Student Artisans in UNILAG</title>
 
         <link rel="icon" type="image/png" href="{{ asset('favicon.png?v=4') }}">
         <link rel="shortcut icon" href="{{ asset('favicon.png?v=4') }}" type="image/png">

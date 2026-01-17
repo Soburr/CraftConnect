@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\RegistrationRequest;
+use App\Mail\VerificationEmail;
 use App\Models\Artisan;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -18,24 +21,23 @@ class AuthController extends Controller
 
     public function register(RegistrationRequest $request)
     {
-        //  $request->validated();
-
-         $user = User::create([
+        // Create user
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'number' => $request->number,
             'password' => bcrypt($request->password),
             'role' => $request->role
-         ]);
+        ]);
 
-         if($request->role === 'client') {
+        if($request->role === 'client') {
             $user->client()->create([
                 'user_id' =>  $user->id,
                 'hall_of_residence' => $request->hall_of_residence
             ]);
-         }
+        }
 
-         if($request->role == 'artisan') {
+        if($request->role == 'artisan') {
             $user->artisan()->create([
                 'user_id' =>  $user->id,
                 'hall_of_residence' => $request->hall_of_residence,
@@ -43,19 +45,23 @@ class AuthController extends Controller
                 'years_of_experience' => $request->years_of_experience,
                 'portfolio_url' => $request->portfolio_url
             ]);
-         }
+        }
 
-         auth()->login($user);
+        // Generate verification token (plain text for email)
+        $plainToken = Str::random(60);
+        $user->verification_token = hash('sha256', $plainToken);
+        $user->verification_token_expires = now()->addHours(24);
+        $user->save();
 
-         if($user->role === 'client') {
-            return redirect()->route('client.dashboard')->with('success', 'welcome to your dashboard');
-         }
+        // Send verification email
+        Mail::to($user->email)->send(new VerificationEmail($user, $plainToken));
 
-         if($user->role === 'artisan') {
-            return redirect()->route('artisan.dashboard')->with('success', 'welcome to your dashboard');
-         }
+        // Store email in session for verification page
+        session(['verification_email' => $user->email]);
 
-         return redirect()->route('login')->with('error', 'Something went wrong, try again.');
+        // Redirect to verification notice instead of logging in
+        return redirect()->route('verification.notice')
+            ->with('success', 'Registration successful! Please check your email to verify your account.');
     }
 
     public function showLoginForm(Request $request)
@@ -66,31 +72,38 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-       $credentials = $request->validate([
-        'email' => 'required|email|string',
-        'password' => 'required|string'
-       ]);
+        $credentials = $request->validate([
+            'email' => 'required|email|string',
+            'password' => 'required|string'
+        ]);
 
-       $expectedRole = $request->input('role');
+        $expectedRole = $request->input('role');
 
-       if(Auth::Attempt($credentials, $request->filled('remember'))) {
-        $request->session()->regenerate();
+        if(Auth::Attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
 
-        $user = Auth::user();
+            $user = Auth::user();
 
-        if($expectedRole && $user->role !== $expectedRole) {
-           Auth::logout();
-           return back()->withErrors([
-               'email' => 'You tried to login as a ' . $expectedRole . ', but this account is registered as an ' . $user->role . '-'
-           ]);
+            // Check if email is verified
+            if (!$user->hasVerifiedEmail()) {
+                Auth::logout();
+                session(['verification_email' => $request->email]);
+                return redirect()->route('verification.notice')
+                    ->with('error', 'Please verify your email before logging in.');
+            }
+
+            if($expectedRole && $user->role !== $expectedRole) {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'You tried to login as a ' . $expectedRole . ', but this account is registered as an ' . $user->role . '.'
+                ]);
+            }
+
+            return $user->role === 'client' ? redirect()->route('client.dashboard') : redirect()->route('artisan.dashboard');
         }
 
-        return $user->role === 'client' ? redirect()->route('client.dashboard') : redirect()->route('artisan.dashboard');
-       }
-
-       return back()->withErrors([
-        'email' => 'The provided credentials do not match our records'
-       ])->onlyInput('email');
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records'
+        ])->onlyInput('email');
     }
-
 }
