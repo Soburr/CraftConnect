@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\Artisan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -30,12 +31,15 @@ class DashboardController extends Controller
             ->get();
 
         // ====== Top Rated Artisans ======
-        $topArtisans = User::where('role', 'artisan')
-            ->with(['skill'])
-            ->withAvg('artisansReview', 'rating')
-            ->orderByDesc('artisans_review_avg_rating')
-            ->take(3)
-            ->get();
+        $topArtisans = Artisan::with([
+            'user',
+            'skill'
+        ])
+        ->withAvg('reviews', 'rating')
+        ->where('score', '>', 0)
+        ->orderByDesc('score')
+        ->take(3)
+        ->get();
 
         // ====== Weekly Signup Chart ======
         $chartLabels = [];

@@ -8,11 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, CanResetPasswordTrait;
 
     /**
      * The attributes that are mass assignable.

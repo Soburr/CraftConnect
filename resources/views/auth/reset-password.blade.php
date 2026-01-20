@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', 'Reset Password')
 
 @section('content')
 
@@ -16,21 +16,10 @@
 
             <!-- Right side (form) -->
             <div class="w-full p-10 md:w-1/2">
-                <h2 class="text-3xl font-bold text-[#00ae02] mb-8">
-                   @if (isset($role) && $role === 'client')
-                        Log in to Hire an Artisan
-                   @elseif (isset($role) && $role === 'artisan')
-                        Login to offer your skills
-                   @else
-                        Welcome back
-                   @endif
-                </h2>
-
-                @if (@session('success'))
-                    <div class="p-2 mb-4 text-green-700 bg-green-100 rounded">
-                        {{ session('success') }}
-                    </div>
-                @endif
+                <h2 class="text-3xl font-bold text-[#00ae02] mb-8">Reset Password</h2>
+                <p class="mb-8 text-sm text-gray-600">
+                    Enter your new password below.
+                </p>
 
                 @if ($errors->any())
                     <div class="p-2 mb-4 text-red-700 bg-red-100 rounded">
@@ -42,43 +31,32 @@
                     </div>
                 @endif
 
-                <form action="{{ route('login') }}" method="POST" class="space-y-6">
+                <form action="{{ route('password.reset.update') }}" method="POST" class="space-y-6">
                     @csrf
-                    <input type="hidden" name="role" value="{{ $role ?? '' }}">
+                    <input type="hidden" name="token" value="{{ $token }}">
 
-                    <input name="email" type="email" placeholder="Email Address" value="{{ old('email') }}"
-                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required>
+                    <input name="email" type="email" value="{{ old('email', $email) }}" placeholder="Email Address"
+                        class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2" required readonly>
 
                     <!-- Password -->
                     <div class="relative">
-                        <input id="password" name="password" type="password" placeholder="Password"
+                        <input id="password" name="password" type="password" placeholder="New Password"
                             class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2 pr-10" required>
                         <i id="togglePassword" class="absolute text-gray-500 cursor-pointer fas fa-eye right-2 top-3"></i>
                     </div>
 
-                    <!-- Save password & Forgot Password -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input id="terms" type="checkbox" class="mr-2">
-                            <label for="terms" class="text-sm text-gray-600">
-                                Save Password
-                            </label>
-                        </div>
-                        <a href="{{ route('password.request') }}" class="text-sm text-[#00ae02] hover:text-[#009402] hover:underline">
-                            Forgot Password?
-                        </a>
+                    <!-- Confirm Password -->
+                    <div class="relative">
+                        <input id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password"
+                            class="w-full border-b border-gray-300 focus:border-[#00ae02] outline-none py-2 pr-10" required>
+                        <i id="togglePasswordConfirm" class="absolute text-gray-500 cursor-pointer fas fa-eye right-2 top-3"></i>
                     </div>
 
                     <!-- Submit -->
                     <button type="submit"
                         class="w-full bg-[#00ae02] text-white py-2 rounded hover:bg-[#009402] transition">
-                        Login
+                        Reset Password
                     </button>
-
-                    <!-- No Account -->
-                    <p class="mt-4 text-sm text-center">
-                        You do not have an account? <a href="{{ route('register') }}" class="text-green-600">Sign up →</a>
-                    </p>
                 </form>
             </div>
         </div>
@@ -99,7 +77,7 @@
         }
 
         setupToggle('password', 'togglePassword');
-        setupToggle('repeatPassword', 'toggleRepeatPassword');
+        setupToggle('password_confirmation', 'togglePasswordConfirm');
     </script>
 
 @endsection

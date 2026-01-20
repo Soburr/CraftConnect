@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\AdminTestimonialController;
 use App\Http\Controllers\Admin\ArtisanManagementController;
 use App\Http\Controllers\Admin\CategoryManagementController;
 use App\Http\Controllers\Admin\ClientManagementController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -33,6 +35,14 @@ Route::post('/logout', function () {
 
     return redirect('/');
 })->name('logout');
+
+// Forgot Password Routes
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Reset Password Routes
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.reset.update');
 
 Route::post('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'store'])->name('testimonial.store');
 Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class, 'getAll'])->name('testimonial.get');

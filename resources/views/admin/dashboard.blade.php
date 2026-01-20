@@ -82,13 +82,13 @@
       <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
         @forelse($topArtisans ?? [] as $artisan)
         <div class="flex items-center p-5 space-x-4 border border-green-100 bg-green-50 rounded-xl">
-          <img src="{{ $artisan->avatar ?? 'https://via.placeholder.com/60' }}" class="object-cover border-2 border-green-500 rounded-full w-14 h-14" alt="">
+          <img src="{{ $artisan->avatar ? asset('storage/' . $artisan->avatar) : 'https://via.placeholder.com/60' }}" class="object-cover border-2 border-green-500 rounded-full w-14 h-14" alt="">
           <div>
-            <h3 class="font-semibold text-gray-800">{{ $artisan->name }}</h3>
+            <h3 class="font-semibold text-gray-800">{{ $artisan->user->name }}</h3>
             <p class="text-sm text-gray-500">{{ optional($artisan->skill)->name ?? 'No Skill Listed' }}</p>
             <div class="flex items-center mt-1">
               <span class="mr-1 text-sm text-yellow-500">★</span>
-              <span class="text-sm text-gray-600">{{ number_format($artisan->artisans_review_avg_rating ?? 0, 1) }}</span>
+              <span class="text-sm text-gray-600">{{ number_format($artisan->reviews_avg_rating ?? 0, 1) }}</span>
             </div>
           </div>
         </div>
