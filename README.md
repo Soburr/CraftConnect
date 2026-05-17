@@ -71,14 +71,14 @@ The platform enables users to discover, hire, and manage artisan services throug
 ## 📸 Screenshots
 
 ### Homepage
-<img width="960" height="540" alt="Screenshot 2026-05-17 100349" src="https://github.com/user-attachments/assets/c04f784a-94e7-4555-8758-6e14f5c24ef8" />
+<img width="660" height="340" alt="Screenshot 2026-05-17 100349" src="https://github.com/user-attachments/assets/c04f784a-94e7-4555-8758-6e14f5c24ef8" />
 
 
 ### Artisan Listings
-<img width="960" height="540" alt="Screenshot 2026-05-17 100519" src="https://github.com/user-attachments/assets/db10bd5d-9470-4cdb-bc2f-02e638a85d59" />
+<img width="660" height="340" alt="Screenshot 2026-05-17 100519" src="https://github.com/user-attachments/assets/db10bd5d-9470-4cdb-bc2f-02e638a85d59" />
 
 ### Artisan profile
-<img width="960" height="540" alt="Screenshot 2026-05-17 100559" src="https://github.com/user-attachments/assets/61d1c855-4768-4fbf-b825-5a1a060d2184" />
+<img width="660" height="340" alt="Screenshot 2026-05-17 100559" src="https://github.com/user-attachments/assets/61d1c855-4768-4fbf-b825-5a1a060d2184" />
 
 
 ---
@@ -89,3 +89,42 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/Soburr/craftconnect.git
+```
+
+Navigate into the project directory:
+```bash   
+cd your-repo-name
+```
+Install backend dependencies:
+```bash
+composer install
+```
+
+Install frontend dependencies:
+```bash
+npm install
+```
+
+Create environment file:
+```bash
+cp .env.example .env
+```
+
+Generate application key:
+```bash
+php artisan key:generate
+```
+
+Run migrations:
+```bash
+php artisan migrate
+```
+
+Start development server:
+```bash
+php artisan serve
+```
+
+Run frontend build:
+```bash
+npm run dev
