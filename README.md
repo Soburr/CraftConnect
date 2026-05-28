@@ -1,6 +1,6 @@
 # CraftConnect (Lag Artisans)
 
-CraftConnect is a service marketplace platform designed to connect customers with skilled artisans and service providers across Lagos.  
+CraftConnect is a service marketplace platform designed to connect customers with skilled artisans and service providers across the University Of Lagos.  
 The platform enables users to discover, hire, and manage artisan services through a scalable Laravel-powered backend and an interactive web interface.
 
 > Live Production Name: **Lag Artisans**
