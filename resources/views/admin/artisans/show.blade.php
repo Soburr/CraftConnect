@@ -15,6 +15,7 @@
         <div class="grid grid-cols-2 gap-4">
             <p><strong>Name:</strong> {{ $artisan->name }}</p>
             <p><strong>Email:</strong> {{ $artisan->email }}</p>
+            <p><strong>Phone:</strong> {{ $artisan->number ?? 'N/A' }}</p>
             <p><strong>Skill:</strong> {{ $artisan->artisan->skill->name ?? 'N/A' }}</p>
             <p><strong>Status:</strong>
                 <span class="capitalize px-3 py-1 rounded text-white

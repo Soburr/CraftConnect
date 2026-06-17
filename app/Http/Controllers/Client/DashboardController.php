@@ -28,12 +28,15 @@ class DashboardController extends Controller
             ->take(3)
             ->get();
 
-        $recommendedArtisans = Artisan::with(['user', 'skill'])
-            ->withAvg('reviews', 'rating')
-            ->where('score', '>', 0)
-            ->orderByDesc('score')
-            ->take(10)
-            ->get();
+$recommendedArtisans = Artisan::with(['user', 'skill'])
+    ->withAvg('reviews', 'rating')
+    ->whereHas('user', function ($q) {
+        $q->where('is_seeded', false);
+    })
+    ->where('score', '>', 0)
+    ->orderByDesc('score')
+    ->take(10)
+    ->get();
 
         return view('client.dashboard', compact(
             'totalBookings',

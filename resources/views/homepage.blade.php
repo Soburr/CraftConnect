@@ -41,6 +41,8 @@
         </div>
     </section>
 
+    
+
     <section class="px-6 py-16 text-center text-green-600 bg-white">
         <h2 class="mb-12 text-2xl font-semibold md:text-3xl">
             How it works

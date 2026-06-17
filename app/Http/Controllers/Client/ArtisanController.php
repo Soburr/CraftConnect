@@ -13,50 +13,61 @@ use Illuminate\Support\Facades\Auth;
 class ArtisanController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
-        $category = $request->input('category');
-        $location = $request->input('location');
+{
+    $search   = $request->input('search');
+    $category = $request->input('category');
+    $location = $request->input('location');
 
-        $categories = Category::all();
-        $locations = Artisan::select('hall_of_residence')->distinct()->pluck('hall_of_residence');
+    $categories = Category::all();
 
-        if (!$search && !$category && !$location) {
-            $artisans = collect();
-            return view('client.artisan', compact('artisans', 'categories', 'locations', 'search', 'category', 'location'));
-        }
+    // Exclude seeded artisans from the locations dropdown too
+    $locations = Artisan::whereHas('user', function ($q) {
+                        $q->where('is_seeded', false);
+                    })
+                    ->select('hall_of_residence')
+                    ->distinct()
+                    ->pluck('hall_of_residence');
 
-
-        $query = Artisan::with(['user', 'skill.category'])->withAvg('reviews', 'rating');;
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->whereHas('skill', function ($sub) use ($search) {
-                    $sub->where('name', 'like', "%{$search}%");
-                })
-                    ->orWhereHas('user', function ($sub) use ($search) {
-                        $sub->where('name', 'like', "%{$search}%");
-                    });
-            });
-        }
-
-        if ($category) {
-            $query->whereHas('skill', function ($q) use ($category) {
-                $q->where('category_id', $category);
-            });
-        }
-
-        if ($location) {
-            $query->where('hall_of_residence', $location);
-        }
-
-        $artisans = $query->orderByRaw('reviews_avg_rating IS NULL')
-                    ->orderByDesc('reviews_avg_rating')
-                    ->orderByDesc('score')
-                    ->get();
-
+    if (!$search && !$category && !$location) {
+        $artisans = collect();
         return view('client.artisan', compact('artisans', 'categories', 'locations', 'search', 'category', 'location'));
     }
+
+    // Always filter out seeded artisans
+    $query = Artisan::with(['user', 'skill.category'])
+                ->withAvg('reviews', 'rating')
+                ->whereHas('user', function ($q) {
+                    $q->where('is_seeded', false);
+                });
+
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->whereHas('skill', function ($sub) use ($search) {
+                $sub->where('name', 'like', "%{$search}%");
+            })
+            ->orWhereHas('user', function ($sub) use ($search) {
+                $sub->where('name', 'like', "%{$search}%");
+            });
+        });
+    }
+
+    if ($category) {
+        $query->whereHas('skill', function ($q) use ($category) {
+            $q->where('category_id', $category);
+        });
+    }
+
+    if ($location) {
+        $query->where('hall_of_residence', $location);
+    }
+
+    $artisans = $query->orderByRaw('reviews_avg_rating IS NULL')
+                ->orderByDesc('reviews_avg_rating')
+                ->orderByDesc('score')
+                ->get();
+
+    return view('client.artisan', compact('artisans', 'categories', 'locations', 'search', 'category', 'location'));
+}
 
     public function bookArtisan($artisanId) {
     Booking::create([

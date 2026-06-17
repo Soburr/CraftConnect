@@ -18,6 +18,7 @@
             <tr class="bg-gray-100">
                 <th class="p-3 text-left">Name</th>
                 <th class="p-3 text-left">Email</th>
+                <th class="p-3 text-left">Phone Number</th>
                 <th class="p-3 text-left">Skill</th>
                 <th class="p-3 text-left">Status</th>
                 <th class="p-3 text-center">Actions</th>
@@ -28,6 +29,7 @@
             <tr class="border-t">
                 <td class="p-3">{{ $artisan->name }}</td>
                 <td class="p-3">{{ $artisan->email }}</td>
+                <td class="p-3">{{ $artisan->number }}</td>
                 <td class="p-3">{{ $artisan->artisan->skill->name ?? 'N/A' }}</td>
                 <td class="p-3 capitalize">{{ $artisan->status }}</td>
                 <td class="p-3 text-center">
