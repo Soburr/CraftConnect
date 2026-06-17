@@ -41,7 +41,110 @@
         </div>
     </section>
 
-    
+<!-- Featured Projects -->
+<section class="py-12 bg-white">
+    <div class="px-4 mx-auto max-w-7xl">
+
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h2 class="text-3xl font-bold">Featured Projects</h2>
+                <p class="mt-2 text-gray-600">
+                    See recent work shared by clients and student artisans.
+                </p>
+            </div>
+
+            <a href="{{ route('posts.index') }}"
+                class="font-semibold text-green-600 hover:text-green-700">
+                View All →
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+            @forelse ($featuredPosts as $post)
+                <div class="overflow-hidden transition bg-white border shadow-sm rounded-2xl hover:shadow-lg">
+
+                    <img src="{{ $post->image_url }}"
+                        class="object-cover w-full h-56"
+                        alt="{{ $post->title ?? 'Post image' }}">
+
+                    <div class="p-4">
+
+                        <div class="flex items-center mb-3">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode($post->user->name) }}"
+                                class="w-10 h-10 rounded-full">
+
+                            <div class="ml-3">
+                                <h4 class="font-semibold">
+                                    {{ $post->user->name }}
+                                </h4>
+
+                                <small class="text-gray-500">
+                                    {{ $post->created_at->diffForHumans() }}
+                                </small>
+                            </div>
+                        </div>
+
+                        @if ($post->title)
+                            <h5 class="mb-2 font-semibold">
+                                {{ $post->title }}
+                            </h5>
+                        @endif
+
+                        @if ($post->caption)
+                            <p class="mb-4 text-sm text-gray-600">
+                                {{ $post->caption }}
+                            </p>
+                        @endif
+
+                        <div class="flex items-center justify-between">
+
+                            <div class="flex items-center gap-4 text-sm text-gray-500">
+
+                                @auth
+                                    @if ($post->isLikedBy(auth()->user()))
+                                        <form action="{{ route('posts.unlike', $post) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="hover:underline">
+                                                ❤️ {{ $post->likesCount() }}
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('posts.like', $post) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="hover:underline">
+                                                🤍 {{ $post->likesCount() }}
+                                            </button>
+                                        </form>
+                                    @endif
+                                @else
+                                    <span>❤️ {{ $post->likesCount() }}</span>
+                                @endauth
+
+                                <span>💬 {{ $post->commentsCount() }}</span>
+                            </div>
+
+                            <a href="{{ route('posts.index') }}#post-{{ $post->id }}"
+                                class="font-medium text-green-600">
+                                View Project
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            @empty
+                <p class="text-gray-500 col-span-full text-center">
+                    No projects shared yet. Be the first to post one!
+                </p>
+            @endforelse
+
+        </div>
+
+    </div>
+</section>
 
     <section class="px-6 py-16 text-center text-green-600 bg-white">
         <h2 class="mb-12 text-2xl font-semibold md:text-3xl">

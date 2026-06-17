@@ -170,4 +170,10 @@ class User extends Authenticatable implements CanResetPassword
     {
         return !is_null($this->email_verified_at);
     }
+
+    public function posts(): HasMany
+    {
+       return $this->hasMany(Post::class);
+    }
+
 }

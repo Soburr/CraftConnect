@@ -11,6 +11,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SkillManagementController;
 use App\Http\Controllers\HomepageController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,18 @@ Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class,
 
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.create');
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.store');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+    Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+    Route::delete('/posts/{post}/like', [PostController::class, 'unlike'])->name('posts.unlike');
+
+    Route::post('/posts/{post}/comments', [PostController::class, 'comment'])->name('posts.comments.store');
+    Route::delete('/comments/{comment}', [PostController::class, 'destroyComment'])->name('posts.comments.destroy');
+});
 
 Route::middleware(['auth', 'verified', 'role:client'])->prefix('client/dashboard')->group(function () {
     Route::get('/', [App\Http\Controllers\Client\DashboardController::class, 'viewDashboard'])->name('client.dashboard');
