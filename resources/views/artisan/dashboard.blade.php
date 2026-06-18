@@ -217,6 +217,191 @@
 
     </div>
 
+    <div class="mb-4 bg-white shadow-sm rounded-2xl" id="new-post-card">
+    <div class="p-5 border-b border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-800">📸 Share a New Post</h3>
+        <p class="mt-1 text-sm text-gray-500">Show off recent work or updates — visible to everyone on the feed.</p>
+    </div>
+
+    <form id="new-post-form" class="p-5" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+        @csrf
+
+        <div id="new-post-alert" class="hidden mb-4 px-4 py-3 rounded-lg text-sm"></div>
+
+        <div class="mb-4">
+            <label for="new-post-title" class="block mb-1 text-sm font-medium text-gray-700">
+                Title <span class="text-gray-400">(optional)</span>
+            </label>
+            <input type="text" id="new-post-title" name="title" maxlength="255"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="e.g. Custom wardrobe install">
+        </div>
+
+        <div class="mb-4">
+            <label for="new-post-caption" class="block mb-1 text-sm font-medium text-gray-700">
+                Caption <span class="text-gray-400">(optional)</span>
+            </label>
+            <textarea id="new-post-caption" name="caption" rows="3" maxlength="2000"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Say a bit about this work..."></textarea>
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-1 text-sm font-medium text-gray-700">
+                Image <span class="text-red-500">*</span>
+            </label>
+            <label for="new-post-image"
+                class="flex flex-col items-center justify-center w-full h-40 transition border-2 border-dashed rounded-lg cursor-pointer border-gray-300 hover:border-green-500"
+                id="new-post-dropzone">
+                <span id="new-post-dropzone-text" class="text-sm text-gray-500">Click to choose an image (max 5MB)</span>
+                <img id="new-post-preview" src="" alt="" class="hidden object-contain w-full h-full p-2">
+            </label>
+            <input type="file" id="new-post-image" name="image" accept="image/*" class="hidden" required>
+            <p id="new-post-image-error" class="hidden mt-1 text-sm text-red-600"></p>
+        </div>
+
+        <button type="submit" id="new-post-submit"
+            class="inline-flex items-center justify-center w-full px-4 py-2 font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed">
+            <span id="new-post-submit-text">Post</span>
+        </button>
+    </form>
+</div>
+
+<div id="my-posts-feed" class="space-y-4">
+    @forelse ($myPosts ?? [] as $post)
+        <div class="overflow-hidden bg-white border shadow-sm rounded-2xl" id="post-{{ $post->id }}">
+            <img src="{{ $post->image_url }}" class="object-cover w-full h-56" alt="{{ $post->title ?? 'Post image' }}">
+            <div class="p-4">
+                <div class="flex items-center mb-3">
+                    <img src="https://ui-avatars.com/api/?name={{ urlencode($post->user->name) }}" class="w-10 h-10 rounded-full">
+                    <div class="ml-3">
+                        <h4 class="font-semibold">{{ $post->user->name }}</h4>
+                        <small class="text-gray-500">{{ $post->created_at->diffForHumans() }}</small>
+                    </div>
+                </div>
+                @if ($post->title)
+                    <h5 class="mb-2 font-semibold">{{ $post->title }}</h5>
+                @endif
+                @if ($post->caption)
+                    <p class="mb-2 text-sm text-gray-600">{{ $post->caption }}</p>
+                @endif
+                <div class="flex items-center gap-4 text-sm text-gray-500">
+                    <span>❤️ {{ $post->likesCount() }}</span>
+                    <span>💬 {{ $post->commentsCount() }}</span>
+                </div>
+            </div>
+        </div>
+    @empty
+        <p id="my-posts-empty" class="py-6 text-sm text-center text-gray-400">
+            You haven't shared any posts yet — your posts will show up here.
+        </p>
+    @endforelse
+</div>
+
+<script>
+(function () {
+    const form = document.getElementById('new-post-form');
+    const imageInput = document.getElementById('new-post-image');
+    const dropzoneText = document.getElementById('new-post-dropzone-text');
+    const preview = document.getElementById('new-post-preview');
+    const imageError = document.getElementById('new-post-image-error');
+    const alertBox = document.getElementById('new-post-alert');
+    const submitBtn = document.getElementById('new-post-submit');
+    const submitText = document.getElementById('new-post-submit-text');
+    const feed = document.getElementById('my-posts-feed');
+
+    const MAX_BYTES = 5 * 1024 * 1024;
+
+    function getCsrf() {
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) return meta.getAttribute('content');
+        const input = form.querySelector('input[name="_token"]');
+        return input ? input.value : '';
+    }
+
+    function showAlert(msg, type) {
+        alertBox.textContent = msg;
+        alertBox.className = 'mb-4 px-4 py-3 rounded-lg text-sm ' +
+            (type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700');
+    }
+
+    function setImageError(msg) {
+        imageError.textContent = msg || '';
+        imageError.classList.toggle('hidden', !msg);
+    }
+
+    function escape(str) {
+        const d = document.createElement('div');
+        d.textContent = str ?? '';
+        return d.innerHTML;
+    }
+
+    imageInput.addEventListener('change', function () {
+        const file = imageInput.files[0];
+        setImageError(null);
+        if (!file) { preview.classList.add('hidden'); dropzoneText.classList.remove('hidden'); return; }
+        if (!file.type.startsWith('image/')) { setImageError('Please choose an image file.'); imageInput.value = ''; return; }
+        if (file.size > MAX_BYTES) { setImageError('Image must be 5MB or smaller.'); imageInput.value = ''; return; }
+        const reader = new FileReader();
+        reader.onload = e => { preview.src = e.target.result; preview.classList.remove('hidden'); dropzoneText.classList.add('hidden'); };
+        reader.readAsDataURL(file);
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        alertBox.classList.add('hidden');
+        setImageError(null);
+        if (!imageInput.files[0]) { setImageError('Please choose an image to post.'); return; }
+
+        submitBtn.disabled = true;
+        submitText.textContent = 'Posting…';
+
+        fetch(form.action, {
+            method: 'POST',
+            headers: { 'X-CSRF-TOKEN': getCsrf(), 'Accept': 'application/json' },
+            body: new FormData(form),
+        })
+        .then(r => r.json().then(data => ({ ok: r.ok, status: r.status, data })))
+        .then(({ ok, status, data }) => {
+            if (ok && data.success) {
+                const empty = document.getElementById('my-posts-empty');
+                if (empty) empty.remove();
+                const p = data.post;
+                feed.insertAdjacentHTML('afterbegin', `
+                    <div class="overflow-hidden bg-white border shadow-sm rounded-2xl" id="post-${p.id}">
+                        <img src="${p.image_url}" class="object-cover w-full h-56" alt="${escape(p.title || 'Post image')}">
+                        <div class="p-4">
+                            <div class="flex items-center mb-3">
+                                <img src="${p.user.avatar_url}" class="w-10 h-10 rounded-full">
+                                <div class="ml-3">
+                                    <h4 class="font-semibold">${escape(p.user.name)}</h4>
+                                    <small class="text-gray-500">${escape(p.created_at_human)}</small>
+                                </div>
+                            </div>
+                            ${p.title ? `<h5 class="mb-2 font-semibold">${escape(p.title)}</h5>` : ''}
+                            ${p.caption ? `<p class="mb-2 text-sm text-gray-600">${escape(p.caption)}</p>` : ''}
+                            <div class="flex items-center gap-4 text-sm text-gray-500">
+                                <span>❤️ 0</span><span>💬 0</span>
+                            </div>
+                        </div>
+                    </div>`);
+                showAlert('Post shared successfully.', 'success');
+                form.reset();
+                preview.classList.add('hidden'); preview.src = '';
+                dropzoneText.classList.remove('hidden');
+                return;
+            }
+            if (status === 422 && data.errors) {
+                showAlert(Object.values(data.errors)[0][0], 'error'); return;
+            }
+            showAlert(data.message || 'Something went wrong.', 'error');
+        })
+        .catch(() => showAlert('Network error — please try again.', 'error'))
+        .finally(() => { submitBtn.disabled = false; submitText.textContent = 'Post'; });
+    });
+})();
+</script>
+
     <!-- Score Explanation Modal -->
     <div id="scoreModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">

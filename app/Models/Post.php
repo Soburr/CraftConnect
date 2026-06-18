@@ -12,12 +12,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'title',
-        'image_path',
-        'caption',
-    ];
+    protected $fillable = ['user_id', 'title', 'image_path', 'caption'];
 
     public function user(): BelongsTo
     {
@@ -36,29 +31,21 @@ class Post extends Model
 
     public function isLikedBy(?User $user): bool
     {
-        if (! $user) {
-            return false;
-        }
-
+        if (!$user) return false;
         if ($this->relationLoaded('likes')) {
             return $this->likes->contains('user_id', $user->id);
         }
-
         return $this->likes()->where('user_id', $user->id)->exists();
     }
 
     public function likesCount(): int
     {
-        return $this->relationLoaded('likes')
-            ? $this->likes->count()
-            : $this->likes()->count();
+        return $this->relationLoaded('likes') ? $this->likes->count() : $this->likes()->count();
     }
 
     public function commentsCount(): int
     {
-        return $this->relationLoaded('comments')
-            ? $this->comments->count()
-            : $this->comments()->count();
+        return $this->relationLoaded('comments') ? $this->comments->count() : $this->comments()->count();
     }
 
     public function getImageUrlAttribute(): string

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Artisan;
 use App\Models\Booking;
 use App\Models\Review;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,13 +41,19 @@ class DashboardController extends Controller
             ->take(3)
             ->get();
 
+        $myPosts = Post::where('user_id', auth()->id())
+            ->with(['user', 'likes', 'comments'])
+            ->latest()
+            ->get();
+
         return view('artisan.dashboard', compact(
             'artisan',
             'totalBookings',
             'completedBookings',
             'averageRating',
             'activeBookings',
-            'recentReviews'
+            'recentReviews',
+            'myPosts'
         ));
     }
 
