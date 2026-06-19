@@ -102,4 +102,22 @@ class PostController extends Controller
         $comment->delete();
         return back()->with('success', 'Comment deleted.');
     }
+
+    public function show(Post $post)
+    {
+        $post->load(['user', 'likes', 'comments.user', 'comments.likes']);
+        return view('posts.show', compact('post'));
+    }
+
+    public function likeComment(PostComment $comment)
+    {
+        $comment->likes()->firstOrCreate(['user_id' => Auth::id()]);
+        return back();
+    }
+
+    public function unlikeComment(PostComment $comment)
+    {
+        $comment->likes()->where('user_id', Auth::id())->delete();
+        return back();
+    }   
 }

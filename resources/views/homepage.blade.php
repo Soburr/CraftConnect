@@ -125,10 +125,9 @@
                                 <span>💬 {{ $post->commentsCount() }}</span>
                             </div>
 
-                            <a href="{{ route('posts.index') }}#post-{{ $post->id }}"
-                                class="font-medium text-green-600">
-                                View Project
-                            </a>
+                 <a href="{{ route('posts.show', $post) }}" class="font-medium text-green-600">
+                          View Project
+                 </a>
 
                         </div>
 
