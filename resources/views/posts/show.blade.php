@@ -424,23 +424,33 @@
                 @endforelse
 
                 {{-- Comment input --}}
-                @auth
-                    <div class="comment-form-wrap">
-                        <form action="{{ route('posts.comments.store', $post) }}" method="POST">
-                            @csrf
-                            <div class="comment-input-row">
-                                <img class="comment-avatar" style="margin:0;flex-shrink:0"
-                                    src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=dcfce7&color=15803d"
-                                    alt="{{ auth()->user()->name }}">
-                                <textarea name="body" required rows="1"
-                                    placeholder="Write a comment…"
-                                    oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
-                                <button type="submit" class="comment-send-btn">Send</button>
-                            </div>
-                        </form>
-                    </div>
-                @endauth
-
+@auth
+    <div class="comment-form-wrap">
+        <form action="{{ route('posts.comments.store', $post) }}" method="POST">
+            @csrf
+            <div class="comment-input-row">
+                <img class="comment-avatar" style="margin:0;flex-shrink:0"
+                    src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=dcfce7&color=15803d"
+                    alt="{{ auth()->user()->name }}">
+                <textarea name="body" required rows="1"
+                    placeholder="Write a comment…"
+                    oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+                <button type="submit" class="comment-send-btn">Send</button>
+            </div>
+        </form>
+    </div>
+@else
+    <div style="border-top: 1px solid #f0fdf4; margin-top: 8px; padding-top: 20px; text-align: center;">
+        <p style="font-size: 14px; color: #9ca3af; margin-bottom: 12px;">
+            Sign in to like or leave a comment.
+        </p>
+        <a href="{{ route('login') }}"
+            style="display: inline-block; background: #16a34a; color: #fff; font-size: 13px; font-weight: 700;
+                   padding: 9px 24px; border-radius: 999px; text-decoration: none;">
+            Sign in
+        </a>
+    </div>
+@endauth
             </div>
         </div>
     </div>

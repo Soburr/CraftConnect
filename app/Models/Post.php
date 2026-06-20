@@ -12,7 +12,19 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'title', 'image_path', 'caption'];
+    protected $fillable = ['user_id', 'title', 'image_path', 'caption', 'slug'];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Post $post) {
+            $post->slug = Str::random(12);
+        });
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     public function user(): BelongsTo
     {

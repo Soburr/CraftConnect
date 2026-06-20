@@ -52,10 +52,12 @@ Route::get('/testimonials', [\App\Http\Controllers\TestimonialController::class,
 Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'index'])->name('contact.create');
 Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.store');
 
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 
     Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
